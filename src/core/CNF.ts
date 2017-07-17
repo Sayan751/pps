@@ -5,12 +5,17 @@ export class CNF {
     private _variableSet: Set<string>;
 
     constructor(readonly clauses: Clause[]) {
-        this._variableSet = clauses
+        this.clauses = this.clauses.filter((clause: Clause) => !clause.isEmpty());
+        this._variableSet = this.clauses
             .map(clause => clause.variableSet)
             .reduce((acc: Set<string>, currentSet: Set<string>) => {
                 currentSet.forEach(variable => acc.add(variable));
                 return acc;
             }, new Set<string>())
+    }
+
+    isEmpty(): boolean {
+        return this.clauses.length === 0;
     }
 
     /**
@@ -34,15 +39,10 @@ export class CNF {
     }
 
     toString() {
-        return this.clauses
-            .map((clause: Clause) => clause.toString())
-            .join(' \u2227 ');
+        return this.isEmpty()
+            ? '\u2294'
+            : this.clauses
+                .map((clause: Clause) => clause.toString())
+                .join(' \u2227 ');
     }
 }
-
-// console.log(
-//     new CNF([
-//         new Clause([new Literal("z", true), new Literal("y")]),
-//         new Clause([new Literal("x"), new Literal("x", true)]),
-//         new Clause([new Literal("z"), new Literal("x")])
-//     ]).toString());

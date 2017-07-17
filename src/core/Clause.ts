@@ -3,16 +3,19 @@ export class Clause {
     private _variableSet: Set<string>;
 
     constructor(readonly literals: Literal[]) {
-        if (!literals || literals.length < 1) throw Error("Invalid argument 'literals'");
+        if (!literals) throw Error("Invalid argument 'literals'");
         this._variableSet = new Set(literals.map(lit => lit.variable));
     }
 
-    isUnitClause(): boolean {
-        return this.literals.length == 1;
+    isEmpty(): boolean {
+        return this.literals.length === 0;
+    }
+    isUnit(): boolean {
+        return this.literals.length === 1;
     }
 
-    isPositiveUnitClause(): boolean {
-        return this.isUnitClause() && !this.literals[0].isNegative;
+    isPositiveUnit(): boolean {
+        return this.isUnit() && !this.literals[0].isNegative;
     }
 
     /**
@@ -21,7 +24,7 @@ export class Clause {
      * @returns {boolean} 
      * @memberof Clause
      */
-    isHornClause(): boolean {
+    isHorn(): boolean {
         return this.literals.filter((lit: Literal) => !lit.isNegative).length <= 1;
     }
 
@@ -46,7 +49,9 @@ export class Clause {
     }
 
     toString() {
-        return `(${
+        return this.isEmpty()
+            ? '\u2294'
+            : `(${
             this.literals
                 .map((lit: Literal) => lit.toString())
                 .join(' \u2228 ')

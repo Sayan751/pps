@@ -3,7 +3,8 @@ export class Clause {
     private _variableSet: Set<string>;
 
     constructor(readonly literals: Literal[]) {
-        this._variableSet = new Set<string>(literals.map(lit => lit.variable));
+        if (!literals || literals.length < 1) throw Error("Invalid argument 'literals'");
+        this._variableSet = new Set(literals.map(lit => lit.variable));
     }
 
     isUnitClause(): boolean {
@@ -12,6 +13,16 @@ export class Clause {
 
     isPositiveUnitClause(): boolean {
         return this.isUnitClause() && !this.literals[0].isNegative;
+    }
+
+    /**
+     * Returns true if clause contains at-most 1 positive literal.
+     * 
+     * @returns {boolean} 
+     * @memberof Clause
+     */
+    isHornClause(): boolean {
+        return this.literals.filter((lit: Literal) => !lit.isNegative).length <= 1;
     }
 
     /**
@@ -42,5 +53,3 @@ export class Clause {
             })`;
     }
 }
-
-// console.log(new Clause([new Literal("x"), new Literal("x", true)]).toString());

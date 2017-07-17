@@ -26,5 +26,9 @@
     "karma-mocha-reporter": "^2.2.3",
     "karma-typescript": "^3.0.4",
     "typescript": "^2.4.1"
+  },
+  "dependencies": {
+    "babel": "^6.23.0",
+    "babel-polyfill": "^6.23.0"
   }
 }

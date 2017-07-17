@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "es2015",
+        "noImplicitAny": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "strictNullChecks": true,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "allowJs": true,
+        "lib": [
+            "es2017", "dom"
+        ],
+        "typeRoots": [
+            "./node_modules/@types",
+            "./custom_typings"
+        ]
+    },
+    "awesomeTypescriptLoaderOptions": {
+        "forkChecker": true
+    },
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}

@@ -1,5 +1,5 @@
-import { Clause } from "../core/Clause"
-import { CNF } from "../core/CNF"
+import { Clause } from "../core/Clause";
+import { CNF } from "../core/CNF";
 
 export class IndependentSet {
 
@@ -8,13 +8,13 @@ export class IndependentSet {
     constructor(private readonly clauses: Set<Clause>) {
         const vars = new Set<string>();
         Array.from(clauses).map((clause: Clause) => clause.variableSet)
-            .forEach((variableSet: Set<string>) => variableSet.forEach(variable => vars.add(variable)));
+            .forEach((variableSet: Set<string>) => variableSet.forEach((variable) => vars.add(variable)));
         this.numVar = vars.size;
     }
 
     /**
      * Returns number of clauses in the set.
-     * 
+     *
      * @readonly
      * @memberof IndependentSet
      */
@@ -22,10 +22,10 @@ export class IndependentSet {
 
     /**
      * Returns SIZE = 2^(numVarInCNF - number of vars in independent set)
-     * 
-     * @param {number} numVarInCNF 
+     *
+     * @param {number} numVarInCNF
      * @returns SIZE = 2^(numVarInCNF - number of vars in independent set)
      * @memberof IndependentSet
      */
-    SIZE(numVarInCNF: number) { return Math.pow(2, numVarInCNF - this.numVar); }
+    public SIZE(numVarInCNF: number) { return Math.pow(2, numVarInCNF - this.numVar); }
 }

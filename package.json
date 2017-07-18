@@ -25,6 +25,7 @@
     "karma-jasmine": "^1.1.0",
     "karma-mocha-reporter": "^2.2.3",
     "karma-typescript": "^3.0.4",
+    "tslint": "^5.5.0",
     "typescript": "^2.4.1"
   },
   "dependencies": {

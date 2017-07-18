@@ -1,4 +1,5 @@
 import { Clause } from "./Clause";
+import { Connectives, Symbols } from "./Constants";
 import { Literal } from "./Literal";
 
 export class CNF {
@@ -39,9 +40,9 @@ export class CNF {
 
     public toString() {
         return this.isEmpty()
-            ? "\u2294"
+            ? Symbols.empty
             : this.clauses
                 .map((clause: Clause) => clause.toString())
-                .join(" \u2227 ");
+                .join(` ${Connectives.and} `);
     }
 }

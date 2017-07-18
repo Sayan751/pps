@@ -1,3 +1,4 @@
+import { Connectives, Symbols } from "./Constants";
 import { Literal } from "./Literal";
 export class Clause {
     /**
@@ -46,11 +47,11 @@ export class Clause {
 
     public toString() {
         return this.isEmpty()
-            ? "\u2294"
+            ? Symbols.empty
             : `(${
             this.literals
                 .map((lit: Literal) => lit.toString())
-                .join(" \u2228 ")
+                .join(` ${Connectives.or} `)
             })`;
     }
 }

@@ -1,6 +1,7 @@
-import "babel-polyfill"
-import { Literal } from "../../src/core/Literal";
+import "babel-polyfill";
 import { Clause } from "../../src/core/Clause";
+import { Connectives, Symbols } from "../../src/core/Constants";
+import { Literal } from "../../src/core/Literal";
 
 describe("Clause test suite", () => {
 
@@ -25,7 +26,7 @@ describe("Clause test suite", () => {
             expect(new Clause([new Literal("x"), new Literal("x", true)]).numVariables).toBe(1);
             expect(new Clause([new Literal("x"), new Literal("y", true)]).numVariables).toBe(2);
             expect(new Clause([new Literal("x"), new Literal("y"), new Literal("z")]).numVariables).toBe(3);
-        })
+        });
     });
 
     describe("Aspects of the clause should be correctly projected", () => {
@@ -48,13 +49,13 @@ describe("Clause test suite", () => {
         });
 
         it("isHornClause should return true for Horn clause", () => {
-            //fact
+            // fact
             expect(new Clause([new Literal("x")]).isHorn()).toBe(true);
 
-            //implication
+            // implication
             expect(new Clause([new Literal("x"), new Literal("x", true)]).isHorn()).toBe(true);
 
-            //negative clause
+            // negative clause
             expect(new Clause([new Literal("x", true)]).isHorn()).toBe(true);
             expect(new Clause([new Literal("x", true), new Literal("y", true)]).isHorn()).toBe(true);
         });
@@ -71,16 +72,17 @@ describe("Clause test suite", () => {
     });
 
     describe("Clauses must have proper string representation", () => {
-        it("empty clause should represented as \u2294", () => {
-            expect(new Clause([]).toString()).toBe('\u2294');
+        it(`empty clause should represented as ${Symbols.empty}`, () => {
+            expect(new Clause([]).toString()).toBe(Symbols.empty);
         });
 
-        it("(x OR y) should be represented as (x \u2228 y)", () => {
-            expect(new Clause([new Literal("x"), new Literal("y")]).toString()).toBe('(x \u2228 y)');
+        it(`(x OR y) should be represented as (x ${Connectives.or} y)`, () => {
+            expect(new Clause([new Literal("x"), new Literal("y")]).toString()).toBe(`(x ${Connectives.or} y)`);
         });
 
-        it("(NOT x OR NOT y) should be represented as (\u00ACx \u2228 \u00ACy)", () => {
-            expect(new Clause([new Literal("x", true), new Literal("y", true)]).toString()).toBe('(\u00ACx \u2228 \u00ACy)');
+        it(`(NOT x OR NOT y) should be represented as (${Connectives.not}x ${Connectives.or} ${Connectives.not}y)`, () => {
+            expect(new Clause([new Literal("x", true), new Literal("y", true)]).toString())
+                .toBe(`(${Connectives.not}x ${Connectives.or} ${Connectives.not}y)`);
         });
     });
 });

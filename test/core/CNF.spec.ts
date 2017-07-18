@@ -1,7 +1,8 @@
-import "babel-polyfill"
-import { Literal } from "../../src/core/Literal";
+import "babel-polyfill";
 import { Clause } from "../../src/core/Clause";
 import { CNF } from "../../src/core/CNF";
+import { Connectives, Symbols } from "../../src/core/Constants";
+import { Literal } from "../../src/core/Literal";
 
 describe("CNF test suite", () => {
 
@@ -52,17 +53,17 @@ describe("CNF test suite", () => {
     });
 
     describe("CNF must have proper string representation", () => {
-        it("empty CNF should represented as \u2294", () => {
-            expect(new CNF([]).toString()).toBe('\u2294');
+        it(`empty CNF should represented as ${Symbols.empty}`, () => {
+            expect(new CNF([]).toString()).toBe(Symbols.empty);
         });
 
-        it("(z OR y) AND (z OR NOT x) should be represented as (z \u2228 y) \u2227 (z \u2228 \u00ACx)", () => {
+        it(`(z OR y) AND (z OR NOT x) should be represented as (z ${Connectives.or} y) ${Connectives.and} (z ${Connectives.or} ${Connectives.not}x)`, () => {
             expect(
                 new CNF([
                     new Clause([new Literal("z"), new Literal("y")]),
                     new Clause([new Literal("z"), new Literal("x", true)])
                 ]).toString())
-                .toBe('(z \u2228 y) \u2227 (z \u2228 \u00ACx)');
+                .toBe(`(z ${Connectives.or} y) ${Connectives.and} (z ${Connectives.or} ${Connectives.not}x)`);
         });
     });
 });

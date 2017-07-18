@@ -14,6 +14,9 @@ export class CNF {
             }, new Set<string>())
     }
 
+    isHorn(): boolean {
+        return this.clauses.every((clause: Clause) => clause.isHorn());
+    }
     isEmpty(): boolean {
         return this.clauses.length === 0;
     }

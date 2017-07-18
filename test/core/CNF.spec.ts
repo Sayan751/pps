@@ -32,6 +32,25 @@ describe("CNF test suite", () => {
         });
     });
 
+    describe("Aspects of the clause should be correctly projected", () => {
+        it("isHorn should return true for a horn formula", () => {
+            expect(new CNF([
+                new Clause([new Literal("a")]),
+                new Clause([new Literal("z", true), new Literal("y")]),
+                new Clause([new Literal("x"), new Literal("x", true)]),
+                new Clause([new Literal("z", true), new Literal("x", true)])
+            ]).isHorn()).toBe(true);
+        });
+        it("isHorn should return false for a non-horn formula", () => {
+            expect(new CNF([
+                new Clause([new Literal("a")]),
+                new Clause([new Literal("z"), new Literal("y")]),
+                new Clause([new Literal("x"), new Literal("x", true)]),
+                new Clause([new Literal("z", true), new Literal("x", true)])
+            ]).isHorn()).toBe(false);
+        });
+    });
+
     describe("CNF must have proper string representation", () => {
         it("empty CNF should represented as \u2294", () => {
             expect(new CNF([]).toString()).toBe('\u2294');

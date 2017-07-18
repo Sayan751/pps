@@ -29,9 +29,3 @@ export class IndependentSet {
      */
     SIZE(numVarInCNF: number) { return Math.pow(2, numVarInCNF - this.numVar); }
 }
-
-
-
-export class IndependentSetFactory {
-    constructor(private readonly cnf: CNF) { }
-}

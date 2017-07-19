@@ -7,26 +7,20 @@ export class IndependentSet {
     private numVar: number;
 
     constructor(private readonly clauses: Set<Clause>) {
-        const checkForComplimentaryPairOfLit = (clause: Clause) => {
-            clause.literals.forEach((lit: Literal) => {
-                const existingSign = lits.get(lit.variable);
-                if (existingSign !== undefined && existingSign !== lit.isNegative)
-                    throw new Error("Invalid argument; independent set can't have complimentary pair of literals.");
-                if (existingSign === undefined) lits.set(lit.variable, lit.isNegative);
-            });
-        };
-
-        const vars = new Set<string>();
         // map: variable name is key, and value is true if the lit is negative
         const lits = new Map<string, boolean>();
 
         Array.from(clauses)
-            .map((clause: Clause) => {
-                checkForComplimentaryPairOfLit(clause);
-                return clause.variableSet;
-            })
-            .forEach((variableSet: Set<string>) => variableSet.forEach((variable) => vars.add(variable)));
-        this.numVar = vars.size;
+            .forEach((clause: Clause) => {
+                clause.literals.forEach((lit: Literal) => {
+                    const existingSign = lits.get(lit.variable);
+                    if (existingSign !== undefined && existingSign !== lit.isNegative)
+                        throw new Error("Invalid argument; independent set can't have complimentary pair of literals.");
+                    if (existingSign === undefined) lits.set(lit.variable, lit.isNegative);
+                });
+            });
+
+        this.numVar = lits.size;
     }
 
     /**

@@ -21,5 +21,17 @@ describe("IndependentSet test suite", () => {
                     new Clause([new Literal("x"), new Literal("z", true)])
                 ]))).toBeDefined();
         });
+
+        it("Valid input should initialize the properties correctly", () => {
+            const indSet = new IndependentSet(
+                new Set<Clause>([
+                    new Clause([new Literal("x"), new Literal("y")]),
+                    new Clause([new Literal("x"), new Literal("z", true)])
+                ]));
+            expect(indSet).toBeDefined();
+            expect(indSet.size).toBe(2);
+            expect(indSet.SIZE(3)).toBe(1);
+            expect(indSet.SIZE(4)).toBe(2);
+        });
     });
 });

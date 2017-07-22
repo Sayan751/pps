@@ -9,7 +9,8 @@
         "max-line-length": [true, 200],
         "eofline": false,
         "max-classes-per-file": [false],
-        "trailing-comma": [false]
+        "trailing-comma": [false],
+        "no-console": [false]
     },
     "rulesDirectory": []
 }

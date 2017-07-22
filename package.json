@@ -26,6 +26,7 @@
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-create-tsindex": "^1.0.4",
+    "gulp-tslint": "^8.1.1",
     "gulp-typescript": "^3.2.1",
     "jasmine": "^2.6.0",
     "jasmine-core": "^2.6.4",

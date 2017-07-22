@@ -38,6 +38,10 @@ export class CNF {
         return this.variableSet.size;
     }
 
+    public isSatForTruthAssignment(truthAssignment: Map<string, boolean>) {
+        return this.clauses.every((clause: Clause) => clause.isSatForTruthAssignment(truthAssignment));
+    }
+
     public toString() {
         return this.isEmpty()
             ? Symbols.empty

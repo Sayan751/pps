@@ -45,6 +45,10 @@ export class Clause {
         return this.variableSet.size;
     }
 
+    public isSatForTruthAssignment(truthAssignment: Map<string, boolean>) {
+        return this.literals.some((lit: Literal) => lit.isSatForTruthAssignment(truthAssignment));
+    }
+
     public toString() {
         return this.isEmpty()
             ? Symbols.empty

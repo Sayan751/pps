@@ -9,7 +9,7 @@ export class IndependentSetSATChecker {
      *
      * @static
      * @param {CNF} cnf input cnf formula
-     * @returns {boolean} rue if the input cnf is satisfiable, else false.
+     * @returns {boolean} true if the input cnf is satisfiable, else false.
      * @memberof IndependentSetSATChecker
      */
     public static isSat(cnf: CNF): boolean {

@@ -6,7 +6,7 @@ export class IndependentSet {
 
     private numVar: number;
 
-    constructor(private readonly clauses: Set<Clause>) {
+    constructor(readonly clauses: Set<Clause>) {
         // map: variable name is key, and value is true if the lit is negative
         const lits = new Map<string, boolean>();
 
@@ -39,4 +39,15 @@ export class IndependentSet {
      * @memberof IndependentSet
      */
     public SIZE(numVarInCNF: number) { return Math.pow(2, numVarInCNF - this.numVar); }
+
+    public union(indSet: IndependentSet) {
+        const clauseUnion = new Set(this.clauses);
+        indSet.clauses.forEach((clause) => clauseUnion.add(clause));
+        try {
+            const retVal = new IndependentSet(clauseUnion);
+            return retVal;
+        } catch (error) {
+            return undefined;
+        }
+    }
 }

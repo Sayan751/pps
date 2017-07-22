@@ -1,25 +1,116 @@
-// import "babel-polyfill"
-// import { Literal } from "../../src/core/Literal";
-// import { Clause } from "../../src/core/Clause";
-// import { CNF } from "../../src/core/CNF";
-// import { IndependentSetSATChecker } from "../../src/independentSet/IndependentSetSATChecker";
+import "babel-polyfill";
+import { Clause } from "../../src/core/Clause";
+import { CNF } from "../../src/core/CNF";
+import { Connectives } from "../../src/core/Constants";
+import { Literal } from "../../src/core/Literal";
+import { IndependentSetSATChecker } from "../../src/independentSet/IndependentSetSATChecker";
 
-// describe("IndependentSetSATChecker test suite", () => {
-//     it("inconsistent cnf should not be satisfiable", () => {
-//         const cnf = new CNF([
-//             new Clause([new Literal("x")]),
-//             new Clause([new Literal("x", true)]),
-//         ]);
+describe("IndependentSetSATChecker test suite", () => {
 
-//         expect(IndependentSetSATChecker.isSat(cnf)).toBe(false);
-//     });
+    describe("satisfiability should be determined correctly", () => {
+        it(`x ${Connectives.and} ${Connectives.not}x should not be satisfiable`, () => {
+            const cnf = new CNF([
+                new Clause([new Literal("x")]),
+                new Clause([new Literal("x", true)]),
+            ]);
 
-//     it("consistent cnf should be satisfiable", () => {
-//         const cnf = new CNF([
-//             new Clause([new Literal("x"), new Literal("y")]),
-//             new Clause([new Literal("x", true), new Literal("y", true)]),
-//         ]);
+            expect(IndependentSetSATChecker.isSat(cnf)).toBe(false);
+        });
 
-//         expect(IndependentSetSATChecker.isSat(cnf)).toBe(true);
-//     });
-// });
+        it(`(x ${Connectives.or} y) ${Connectives.and} (${Connectives.not}x ${Connectives.or} ${Connectives.not}y) should be satisfiable`, () => {
+            const cnf = new CNF([
+                new Clause([new Literal("x"), new Literal("y")]),
+                new Clause([new Literal("x", true), new Literal("y", true)]),
+            ]);
+
+            expect(IndependentSetSATChecker.isSat(cnf)).toBe(true);
+        });
+
+        it(`x ${Connectives.and} (${Connectives.not}x ${Connectives.or} y) ${Connectives.and} ${Connectives.not}y should not be satisfiable`, () => {
+            const cnf = new CNF([
+                new Clause([new Literal("x")]),
+                new Clause([new Literal("x", true), new Literal("y")]),
+                new Clause([new Literal("y", true)]),
+            ]);
+
+            expect(IndependentSetSATChecker.isSat(cnf)).toBe(false);
+        });
+
+        it(`x ${Connectives.and} (${Connectives.not}x ${Connectives.or} y) ${Connectives.and} ${Connectives.not}y ${Connectives.and} (a ${Connectives.or} z) should not be satisfiable`, () => {
+            const cnf = new CNF([
+                new Clause([new Literal("x")]),
+                new Clause([new Literal("x", true), new Literal("y")]),
+                new Clause([new Literal("y", true)]),
+                new Clause([new Literal("a"), new Literal("z")]),
+            ]);
+
+            expect(IndependentSetSATChecker.isSat(cnf)).toBe(false);
+        });
+
+        it(`a ${Connectives.and} (${Connectives.not}a ${Connectives.or} b) ${Connectives.and} (${Connectives.not}a ${Connectives.or} ${Connectives.not}b) should not be satisfiable`, () => {
+            const cnf = new CNF([
+                new Clause([new Literal("a")]),
+                new Clause([new Literal("a", true), new Literal("b")]),
+                new Clause([new Literal("a", true), new Literal("b", true)]),
+            ]);
+
+            expect(IndependentSetSATChecker.isSat(cnf)).toBe(false);
+        });
+
+        it(`(a ${Connectives.or} ${Connectives.not}b ${Connectives.or} ${Connectives.not}c) ${Connectives.and} (${Connectives.not}a ${Connectives.or} ${Connectives.not}b) ${Connectives.and} b ${Connectives.and} c should not be satisfiable`, () => {
+            const cnf = new CNF([
+                new Clause([new Literal("a"), new Literal("b", true), new Literal("c", true)]),
+                new Clause([new Literal("a", true), new Literal("b", true)]),
+                new Clause([new Literal("b")]),
+                new Clause([new Literal("c")]),
+            ]);
+
+            expect(IndependentSetSATChecker.isSat(cnf)).toBe(false);
+        });
+
+        it(`(y ${Connectives.or} z ${Connectives.or} u) ${Connectives.and} (${Connectives.not}y ${Connectives.or} ${Connectives.not}z ${Connectives.or} w) ${Connectives.and} (y ${Connectives.or} z) ${Connectives.and} ${Connectives.not}w. should be satisfiable`, () => {
+            //(y _ z _ u) ^ (:y _ : z _ w) ^ (y _ z) ^ :w.
+            const cnf = new CNF([
+                new Clause([new Literal("y"), new Literal("z"), new Literal("u")]),
+                new Clause([new Literal("y", true), new Literal("z", true), new Literal("w")]),
+                new Clause([new Literal("y"), new Literal("z")]),
+                new Clause([new Literal("w")]),
+            ]);
+
+            expect(IndependentSetSATChecker.isSat(cnf)).toBe(true);
+        });
+    });
+    describe("IND sets should be correctly constructed", () => {
+
+        it(`For x ${Connectives.and} ${Connectives.not}x only 1 IND needs to be constructed`, () => {
+            const cnf = new CNF([
+                new Clause([new Literal("x")]),
+                new Clause([new Literal("x", true)]),
+            ]);
+
+            expect(IndependentSetSATChecker.constructINDs(cnf).length).toBe(1);
+        });
+
+        it(`For (x ${Connectives.or} y) ${Connectives.and} (x ${Connectives.or} z) 2 IND sets should be constructed`, () => {
+            const cnf = new CNF([
+                new Clause([new Literal("x"), new Literal("y")]),
+                new Clause([new Literal("x"), new Literal("z")]),
+            ]);
+
+            expect(IndependentSetSATChecker.constructINDs(cnf).length).toBe(2);
+        });
+
+        it(
+            `For x ${Connectives.and} (${Connectives.not}x ${Connectives.or} y) ${Connectives.and} ${Connectives.not}y ${Connectives.and} (a ${Connectives.or} z) 3 IND sets should be constructed`,
+            () => {
+                const cnf = new CNF([
+                    new Clause([new Literal("x")]),
+                    new Clause([new Literal("x", true), new Literal("y")]),
+                    new Clause([new Literal("y", true)]),
+                    new Clause([new Literal("a"), new Literal("z")]),
+                ]);
+
+                expect(IndependentSetSATChecker.constructINDs(cnf).length).toBe(3);
+            });
+    });
+});

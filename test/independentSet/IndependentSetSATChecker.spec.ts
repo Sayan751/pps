@@ -57,7 +57,9 @@ describe("IndependentSetSATChecker test suite", () => {
             expect(IndependentSetSATChecker.isSat(cnf)).toBe(false);
         });
 
-        it(`(a ${Connectives.or} ${Connectives.not}b ${Connectives.or} ${Connectives.not}c) ${Connectives.and} (${Connectives.not}a ${Connectives.or} ${Connectives.not}b) ${Connectives.and} b ${Connectives.and} c should not be satisfiable`, () => {
+        let formula = `(a ${Connectives.or} ${Connectives.not}b ${Connectives.or} ${Connectives.not}c) ${Connectives.and} ` +
+            `(${Connectives.not}a ${Connectives.or} ${Connectives.not}b) ${Connectives.and} b ${Connectives.and} c`;
+        it(`${formula} should not be satisfiable`, () => {
             const cnf = new CNF([
                 new Clause([new Literal("a"), new Literal("b", true), new Literal("c", true)]),
                 new Clause([new Literal("a", true), new Literal("b", true)]),
@@ -68,8 +70,10 @@ describe("IndependentSetSATChecker test suite", () => {
             expect(IndependentSetSATChecker.isSat(cnf)).toBe(false);
         });
 
-        it(`(y ${Connectives.or} z ${Connectives.or} u) ${Connectives.and} (${Connectives.not}y ${Connectives.or} ${Connectives.not}z ${Connectives.or} w) ${Connectives.and} (y ${Connectives.or} z) ${Connectives.and} ${Connectives.not}w. should be satisfiable`, () => {
-            //(y _ z _ u) ^ (:y _ : z _ w) ^ (y _ z) ^ :w.
+        formula = `(y ${Connectives.or} z ${Connectives.or} u) ${Connectives.and}` +
+            `(${Connectives.not}y ${Connectives.or} ${Connectives.not}z ${Connectives.or} w) ${Connectives.and}` +
+            `(y ${Connectives.or} z) ${Connectives.and} ${Connectives.not}w`;
+        it(`${formula} should be satisfiable`, () => {
             const cnf = new CNF([
                 new Clause([new Literal("y"), new Literal("z"), new Literal("u")]),
                 new Clause([new Literal("y", true), new Literal("z", true), new Literal("w")]),

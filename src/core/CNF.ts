@@ -2,7 +2,20 @@ import { Clause } from "./Clause";
 import { Connectives, Symbols } from "./Constants";
 import { Literal } from "./Literal";
 
+const andRegex = new RegExp(`and|${Connectives.and}`, "i");
 export class CNF {
+    /**
+     * Parses string representation to CNF object.
+     *
+     * @static
+     * @param {string} str string representation of CNF (thus in NNF).
+     * @returns {CNF} a equivalent CNF object.
+     * @memberof CNF
+     */
+    public static parse(str: string): CNF {
+        return new CNF(str.trim().split(andRegex).map((clauseStr: string) => Clause.parse(clauseStr)));
+    }
+
     /**
      * Returns the set of variables used in the CNF.
      *

@@ -1,6 +1,19 @@
 import { Connectives, Symbols } from "./Constants";
 import { Literal } from "./Literal";
+
+const orRegex = new RegExp(`or|${Connectives.or}`, "i");
 export class Clause {
+    /**
+     * Parses string representation to Clause object.
+     *
+     * @static
+     * @param {string} str string representation of Clause in NNF.
+     * @returns {Clause} a equivalent Clause object.
+     * @memberof Clause
+     */
+    public static parse(str: string): Clause {
+        return new Clause(str.trim().replace(/(\(|\))/g, "").trim().split(orRegex).map((litStr: string) => Literal.parse(litStr)));
+    }
     /**
      * Returns the set of variables used in the clause.
      *

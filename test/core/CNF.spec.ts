@@ -66,4 +66,13 @@ describe("CNF test suite", () => {
                 .toBe(`(z ${Connectives.or} y) ${Connectives.and} (z ${Connectives.or} ${Connectives.not}x)`);
         });
     });
+
+    describe("cnf strings should be correctly parsed", () => {
+
+        it(`The string '(a or b) and    (b or c)  AND  (c or d) ${Connectives.and}  (d or e)' should be correctly parsed to a CNF object`, () => {
+            const cnf = CNF.parse(`(a or b) and    (b or c)  AND  (c or d) ${Connectives.and}  (d or e)`);
+            expect(cnf).toBeDefined();
+            expect(cnf.toString()).toBe(`(a ${Connectives.or} b) ${Connectives.and} (b ${Connectives.or} c) ${Connectives.and} (c ${Connectives.or} d) ${Connectives.and} (d ${Connectives.or} e)`);
+        });
+    });
 });

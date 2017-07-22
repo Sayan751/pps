@@ -85,4 +85,38 @@ describe("Clause test suite", () => {
                 .toBe(`(${Connectives.not}x ${Connectives.or} ${Connectives.not}y)`);
         });
     });
+
+    describe("clause strings should be correctly parsed", () => {
+
+        it("The string 'a or b' should be correctly parsed to a Clause object", () => {
+            const clause = Clause.parse("a or b");
+            expect(clause).toBeDefined();
+            expect(clause.toString()).toBe(`(a ${Connectives.or} b)`);
+        });
+        it("The string 'a OR b' should be correctly parsed to a Clause object", () => {
+            const clause = Clause.parse("a OR b");
+            expect(clause).toBeDefined();
+            expect(clause.toString()).toBe(`(a ${Connectives.or} b)`);
+        });
+        it(`The string a ${Connectives.or} b should be correctly parsed to a Clause object`, () => {
+            const clause = Clause.parse(`a ${Connectives.or} b`);
+            expect(clause).toBeDefined();
+            expect(clause.toString()).toBe(`(a ${Connectives.or} b)`);
+        });
+        it("The string '( a or b)' should be correctly parsed to a Clause object", () => {
+            const clause = Clause.parse("( a or b)");
+            expect(clause).toBeDefined();
+            expect(clause.toString()).toBe(`(a ${Connectives.or} b)`);
+        });
+        it("The string '(a OR  b)' should be correctly parsed to a Clause object", () => {
+            const clause = Clause.parse("(a OR  b)");
+            expect(clause).toBeDefined();
+            expect(clause.toString()).toBe(`(a ${Connectives.or} b)`);
+        });
+        it(`The string ( a  ${Connectives.or}  b ) should be correctly parsed to a Clause object`, () => {
+            const clause = Clause.parse(`( a  ${Connectives.or}  b )`);
+            expect(clause).toBeDefined();
+            expect(clause.toString()).toBe(`(a ${Connectives.or} b)`);
+        });
+    });
 });

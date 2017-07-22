@@ -1,5 +1,21 @@
 import { Connectives } from "./Constants";
+
+const notRegex = new RegExp(`(not|${Connectives.not})`, "ig");
 export class Literal {
+
+    /**
+     * Parses string representation to Literal object.
+     *
+     * @static
+     * @param {string} str string representation of Literal.
+     * @returns {Literal} a equivalent Literal object.
+     * @memberof Literal
+     */
+    public static parse(str: string): Literal {
+        str = str.trim();
+        return new Literal(str.replace(notRegex, "").trim(), notRegex.test(str));
+    }
+
     constructor(public readonly variable: string, public readonly isNegative: boolean = false) {
         if (!variable || variable.length < 1) throw new Error("Invalid variable name");
     }

@@ -12,9 +12,9 @@ module.exports = function(config) {
         port: 9876, // web server port
         colors: true, // enable / disable colors in the output (reporters and logs)
         logLevel: config.LOG_INFO, // level of logging. possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-        autoWatch: false, // enable / disable watching file and executing tests whenever any file changes
+        autoWatch: true, // enable / disable watching file and executing tests whenever any file changes
         browsers: ['Chrome', 'Firefox', 'IE'], // start these browsers. available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        singleRun: true, // Continuous Integration mode: if true, Karma captures browsers, runs the tests and exits
+        singleRun: false, // Continuous Integration mode: if true, Karma captures browsers, runs the tests and exits
         concurrency: Infinity, // Concurrency level: how many browser should be started simultaneous
         karmaTypescriptConfig: {
             tsconfig: "./tsconfig.json",

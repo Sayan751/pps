@@ -117,4 +117,15 @@ describe("IndependentSetSATChecker test suite", () => {
                 expect(IndependentSetSATChecker.constructINDs(cnf).length).toBe(3);
             });
     });
+    describe("satisfiability should be determined correctly for the formulas in string", () => {
+        it("x AND NOTx should not be satisfiable", () => {
+            const str = "x AND NOTx";
+            expect(IndependentSetSATChecker.isSat(str)).toBe(false);
+        });
+
+        it("(x OR y) AND (NOTx or NOTy) should be satisfiable", () => {
+            const str = "(x OR y) AND (NOTx or NOTy)";
+            expect(IndependentSetSATChecker.isSat(str)).toBe(true);
+        });
+    });
 });

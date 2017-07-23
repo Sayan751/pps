@@ -1,6 +1,6 @@
-import { Clause } from "../../src/core/Clause";
-import { CNF } from "../../src/core/CNF";
-import { Utility } from "../../src/core/Utility";
+import { Clause } from "../core/Clause";
+import { CNF } from "../core/CNF";
+import { Utility } from "../core/Utility";
 import { IND } from "./IND";
 import { IndependentSet } from "./IndependentSet";
 export class IndependentSetSATChecker {
@@ -12,7 +12,9 @@ export class IndependentSetSATChecker {
      * @returns {boolean} true if the input cnf is satisfiable, else false.
      * @memberof IndependentSetSATChecker
      */
-    public static isSat(cnf: CNF): boolean {
+    public static isSat(cnf: CNF | string): boolean {
+        if (typeof cnf === "string")
+            cnf = CNF.parse(cnf);
         const cnfNumVar = cnf.numVariables;
         return Math.pow(2, cnfNumVar) !== IndependentSetSATChecker.constructINDs(cnf).reduce((acc, ind) => acc + ind.SIZE(cnfNumVar), 0);
     }

@@ -84,4 +84,33 @@ describe("TruthTableSATChecker test suite", () => {
             expect(TruthTableSATChecker.isSat(cnf)).toBe(true);
         });
     });
+    describe("satisfiability should be determined correctly for the formulas in string", () => {
+        it("x AND NOTx should not be satisfiable", () => {
+            const str = "x AND NOTx";
+            expect(TruthTableSATChecker.isSat(str)).toBe(false);
+        });
+
+        it("(x OR y) AND (NOTx or NOTy) should be satisfiable", () => {
+            const str = "(x OR y) AND (NOTx or NOTy)";
+            expect(TruthTableSATChecker.isSat(str)).toBe(true);
+        });
+    });
+
+    describe("satisfiability model should be determined correctly", () => {
+        it("x AND NOTx should should have an empty model", () => {
+            const str = "x AND NOTx";
+            expect(TruthTableSATChecker.getModel(str).length).toBe(0);
+        });
+
+        it("(x OR y) AND (NOTx or NOTy)should should have model of size 2", () => {
+            const str = "(x OR y) AND (NOTx or NOTy)";
+            const model = TruthTableSATChecker.getModel(str);
+            const expected = new Set([
+                new Map<string, boolean>([["x", true], ["y", false]]),
+                new Map<string, boolean>([["x", false], ["y", true]])
+            ]);
+            expect(model.length).toBe(2);
+            expect(JSON.stringify(expected)).toBe(JSON.stringify(model));
+        });
+    });
 });

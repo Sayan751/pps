@@ -1,15 +1,15 @@
 {
-    "name": "pps",
-    "version": "0.0.1",
+    "name": "pps2",
+    "version": "0.0.2",
     "description": "Propositional proof system",
     "repository": {
         "type": "git",
         "url": "https://github.com/Sayan751/pps.git"
     },
     "main": "dist/index.js",
-    "typings": "index",
+    "typings": "dist/definitions/index",
     "typescript": {
-        "definition": "definitions/index"
+        "definition": "dist/definitions/index"
     },
     "directories": {
         "test": "test"

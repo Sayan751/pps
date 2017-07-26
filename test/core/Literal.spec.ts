@@ -39,6 +39,15 @@ describe("Literal test suite", () => {
     });
 
     describe("literal strings should be correctly parsed", () => {
+        it("The string 'x or y' should not be parsed to a Literal object", () => {
+            expect(() => Literal.parse("x or y")).toThrowError();
+        });
+        it("The string 'x and y' should not be parsed to a Literal object", () => {
+            expect(() => Literal.parse("x and y")).toThrowError();
+        });
+        it("The string 'x not' should not be parsed to a Literal object", () => {
+            expect(() => Literal.parse("x not")).toThrowError();
+        });
         it("The string 'x' should be correctly parsed to a Literal object", () => {
             const lit = Literal.parse("x");
             expect(lit).toBeDefined();

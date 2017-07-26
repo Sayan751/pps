@@ -88,6 +88,18 @@ describe("Clause test suite", () => {
 
     describe("clause strings should be correctly parsed", () => {
 
+        it("The string 'a and b' should not be parsed to a Clause object", () => {
+            expect(() => Clause.parse("a and b")).toThrowError();
+        });
+
+        it("The string 'a AND b' should not be parsed to a Clause object", () => {
+            expect(() => Clause.parse("a AND b")).toThrowError();
+        });
+
+        it(`The string 'a ${Connectives.and} b' should not be parsed to a Clause object`, () => {
+            expect(() => Clause.parse(`a ${Connectives.and} b`)).toThrowError();
+        });
+
         it("The string 'a or b' should be correctly parsed to a Clause object", () => {
             const clause = Clause.parse("a or b");
             expect(clause).toBeDefined();

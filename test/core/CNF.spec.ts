@@ -69,6 +69,10 @@ describe("CNF test suite", () => {
 
     describe("cnf strings should be correctly parsed", () => {
 
+        it(`The string '(a or b not) and (b or c)' should not be parsed to a CNF object`, () => {
+            expect(() => CNF.parse(`(a or b not) and (b or c)`)).toThrowError();
+        });
+
         it(`The string '(a or b) and    (b or c)  AND  (c or d) ${Connectives.and}  (d or e)' should be correctly parsed to a CNF object`, () => {
             const cnf = CNF.parse(`(a or b) and    (b or c)  AND  (c or d) ${Connectives.and}  (d or e)`);
             expect(cnf).toBeDefined();

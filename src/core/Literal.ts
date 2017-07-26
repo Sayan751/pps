@@ -1,7 +1,5 @@
-import { Connectives } from "./Constants";
+import { Connectives, notRegex, validLitRegex } from "./Constants";
 
-const notRegex = new RegExp(`(not|${Connectives.not})`, "ig");
-const validLitRegex = new RegExp(`^(not|${Connectives.not})?\\s*[a-z]+[0-9]*$`, "i");
 export class Literal {
 
     /**
@@ -14,7 +12,7 @@ export class Literal {
      */
     public static parse(str: string): Literal {
         str = str.trim();
-        if (!validLitRegex.test(str)) throw new Error("Invalid string representation of literal: '" + str + "'");
+        if (!validLitRegex.test(str)) throw new Error(`'${str}' is not a Literal`);
         return new Literal(str.replace(notRegex, "").trim(), notRegex.test(str));
     }
 

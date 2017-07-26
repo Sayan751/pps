@@ -38,7 +38,7 @@ TruthTableSATChecker.isSat("x or notx"); // true
 
 As said above, this repository provides implementations of some satisfiability algorithms of propositional formulas, it expects the input formulas to be in [CNF](https://en.wikipedia.org/wiki/Conjunctive_normal_form).
 Some valid examples of CNF are x &#8743; y, x &#8744; y, (x &#8744; y) &#8743; (&#172;x &#8744; &#172;y), etc.
-Following connectives in the formula is supported so far:
+Only the following connectives in the formula are supported:
 
 * AND (&#8743;)
 * OR (&#8744;)
@@ -54,6 +54,7 @@ If the formula is a string then it needs to be in any of these following forms:
 
 * (x &#8744; y) &#8743; (&#172;x &#8744; &#172;y) - using unicode chars
 * (x OR y) AND (NOTx OR NOTy) - using textual forms (connectives are case insensitive; i.e. AND, and, or AnD refers same 'AND' connective).
+* (x || y) && (!x || !y)
 
 It also supports mixed forms such as (x OR y) &#8743; (NOTx &#8744; &#172;y) :confused: (yes, there are test cases for that :grin:), however doing so only affects the readability.
 

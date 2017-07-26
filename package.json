@@ -1,6 +1,6 @@
 {
     "name": "pps2",
-    "version": "0.0.3",
+    "version": "1.0.0",
     "description": "Propositional proof system",
     "repository": {
         "type": "git",

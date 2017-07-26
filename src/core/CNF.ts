@@ -1,8 +1,7 @@
 import { Clause } from "./Clause";
-import { Connectives, Symbols } from "./Constants";
+import { andRegex, Connectives, Symbols } from "./Constants";
 import { Literal } from "./Literal";
 
-const andRegex = new RegExp(`and|${Connectives.and}`, "i");
 export class CNF {
     /**
      * Parses string representation to CNF object.

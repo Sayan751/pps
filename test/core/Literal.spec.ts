@@ -40,13 +40,13 @@ describe("Literal test suite", () => {
 
     describe("literal strings should be correctly parsed", () => {
         it("The string 'x or y' should not be parsed to a Literal object", () => {
-            expect(() => Literal.parse("x or y")).toThrowError();
+            expect(() => Literal.parse("x or y")).toThrowError(/literal/i);
         });
         it("The string 'x and y' should not be parsed to a Literal object", () => {
-            expect(() => Literal.parse("x and y")).toThrowError();
+            expect(() => Literal.parse("x and y")).toThrowError(/literal/i);
         });
         it("The string 'x not' should not be parsed to a Literal object", () => {
-            expect(() => Literal.parse("x not")).toThrowError();
+            expect(() => Literal.parse("x not")).toThrowError(/literal/i);
         });
         it("The string 'x' should be correctly parsed to a Literal object", () => {
             const lit = Literal.parse("x");
@@ -86,6 +86,12 @@ describe("Literal test suite", () => {
         });
         it(`The string '${Connectives.not} x' should be correctly parsed to a Literal object`, () => {
             const lit = Literal.parse(`${Connectives.not} x`);
+            expect(lit).toBeDefined();
+            expect(lit.isNegative).toBe(true);
+            expect(lit.toString()).toBe(`${Connectives.not}x`);
+        });
+        it("The string '!x' should be correctly parsed to a Literal object", () => {
+            const lit = Literal.parse("!x");
             expect(lit).toBeDefined();
             expect(lit.isNegative).toBe(true);
             expect(lit.toString()).toBe(`${Connectives.not}x`);

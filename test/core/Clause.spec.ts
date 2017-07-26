@@ -89,17 +89,14 @@ describe("Clause test suite", () => {
     describe("clause strings should be correctly parsed", () => {
 
         it("The string 'a and b' should not be parsed to a Clause object", () => {
-            expect(() => Clause.parse("a and b")).toThrowError();
+            expect(() => Clause.parse("a and b")).toThrowError(/clause/i);
         });
-
         it("The string 'a AND b' should not be parsed to a Clause object", () => {
-            expect(() => Clause.parse("a AND b")).toThrowError();
+            expect(() => Clause.parse("a AND b")).toThrowError(/clause/i);
         });
-
         it(`The string 'a ${Connectives.and} b' should not be parsed to a Clause object`, () => {
-            expect(() => Clause.parse(`a ${Connectives.and} b`)).toThrowError();
+            expect(() => Clause.parse(`a ${Connectives.and} b`)).toThrowError(/clause/i);
         });
-
         it("The string 'a or b' should be correctly parsed to a Clause object", () => {
             const clause = Clause.parse("a or b");
             expect(clause).toBeDefined();
@@ -127,6 +124,11 @@ describe("Clause test suite", () => {
         });
         it(`The string ( a  ${Connectives.or}  b ) should be correctly parsed to a Clause object`, () => {
             const clause = Clause.parse(`( a  ${Connectives.or}  b )`);
+            expect(clause).toBeDefined();
+            expect(clause.toString()).toBe(`(a ${Connectives.or} b)`);
+        });
+        it("The string 'a || b' should be correctly parsed to a Clause object", () => {
+            const clause = Clause.parse("a || b");
             expect(clause).toBeDefined();
             expect(clause.toString()).toBe(`(a ${Connectives.or} b)`);
         });

@@ -1,7 +1,6 @@
-import { Connectives, Symbols } from "./Constants";
+import { andRegex, Connectives, orRegex, Symbols } from "./Constants";
 import { Literal } from "./Literal";
 
-const orRegex = new RegExp(`or|${Connectives.or}`, "i");
 export class Clause {
     /**
      * Parses string representation to Clause object.
@@ -12,6 +11,7 @@ export class Clause {
      * @memberof Clause
      */
     public static parse(str: string): Clause {
+        if (andRegex.test(str)) throw new Error(`'${str}' is not a Clause`);
         return new Clause(str.trim().replace(/(\(|\))/g, "").trim().split(orRegex).map((litStr: string) => Literal.parse(litStr)));
     }
     /**

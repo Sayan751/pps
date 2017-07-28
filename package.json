@@ -18,7 +18,8 @@
         "test": "cross-env NODE_ENV=test TS_NODE_PROJECT=tsconfig.tsnode.json TS_NODE_FAST=true ts-node ./node_modules/karma/bin/karma start karma.conf.js",
         "prestart": "npm test -- --autoWatch=false --singleRun=true",
         "start": "gulp build",
-        "release": "standard-version"
+        "release": "standard-version",
+        "prepublish": "npm start && git push"
     },
     "keywords": [
         "sat",

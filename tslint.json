@@ -10,7 +10,8 @@
         "eofline": false,
         "max-classes-per-file": [false],
         "trailing-comma": [false],
-        "no-console": [false]
+        "no-console": [false],
+        "interface-name": ["never-prefix"]
     },
     "rulesDirectory": []
 }

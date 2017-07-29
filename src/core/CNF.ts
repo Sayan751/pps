@@ -1,6 +1,7 @@
 import { Clause } from "./Clause";
 import { andRegex, Connectives, Symbols } from "./Constants";
 import { Literal } from "./Literal";
+import { SATChecker } from "./SATChecker";
 
 export class CNF {
     /**
@@ -54,6 +55,15 @@ export class CNF {
         return this.clauses.every((clause: Clause) => clause.isSatForTruthAssignment(truthAssignment));
     }
 
+    /**
+     * Returns true if the input cnf is satisfiable, else it returns false.
+     * @param {SATChecker} satChecker Satisfiability checker algorithm.
+     * @returns {boolean} true if this cnf is satisfiable, else false.
+     * @memberof CNF
+     */
+    public isSat(satChecker: SATChecker): boolean {
+        return satChecker.isSat(this);
+    }
     public toString() {
         return this.isEmpty()
             ? Symbols.empty

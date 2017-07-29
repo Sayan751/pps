@@ -96,6 +96,24 @@ describe("TruthTableSATChecker test suite", () => {
             expect(TruthTableSATChecker.isSat(str)).toBe(true);
         });
     });
+    describe("satisfiability should be determined correctly when CNF#isSat is used", () => {
+        it(`x ${Connectives.and} ${Connectives.not}x should not be satisfiable`, () => {
+            const cnf = new CNF([
+                new Clause([new Literal("x")]),
+                new Clause([new Literal("x", true)]),
+            ]);
+
+            expect(cnf.isSat(TruthTableSATChecker)).toBe(false);
+        });
+        it(`(x ${Connectives.or} y) ${Connectives.and} (${Connectives.not}x ${Connectives.or} ${Connectives.not}y) should be satisfiable`, () => {
+            const cnf = new CNF([
+                new Clause([new Literal("x"), new Literal("y")]),
+                new Clause([new Literal("x", true), new Literal("y", true)]),
+            ]);
+
+            expect(cnf.isSat(TruthTableSATChecker)).toBe(true);
+        });
+    });
 
     describe("satisfiability model should be determined correctly", () => {
         it("x AND NOTx should should have an empty model", () => {
@@ -115,7 +133,7 @@ describe("TruthTableSATChecker test suite", () => {
         });
     });
 
-    describe("isSat should call the binar combination generator correct number of times", () => {
+    describe("isSat should call the binary combination generator correct number of times", () => {
         const formula = `x ${Connectives.and} (${Connectives.not}x ${Connectives.or} y) ${Connectives.and} ${Connectives.not}y ${Connectives.and} (a ${Connectives.or} z)`;
         it(`For ${formula} the generator should be called 17 times`, () => {
             const cnf = new CNF([

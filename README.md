@@ -148,6 +148,24 @@ IndependentSetSATChecker.isSat("x AND (NOTx OR y) AND (NOTy OR z) AND NOTz"); //
 IndependentSetSATChecker.isSat("x OR NOTx"); //true
 ```
 
+## Check satisfiability of `CNF` object directly ##
+
+To make things semantically pleasing, `CNF` also exposes a `isSat` method with the help duck typing of SAT checkers (`SATChecker`).
+This means that you can do following:
+
+```javascript
+const cnf = new CNF([...]);
+
+// CNF#isSat signature: isSat(satChecker: SATChecker): boolean
+// so we need to pass the algorithm we want use:
+
+cnf.isSat(TruthTableSATChecker);
+// OR
+cnf.isSat(IndependentSetSATChecker);
+```
+
+Neat!
+
 More features will be added soon (hopefully :stuck_out_tongue:).
 
 Have fun :relaxed:

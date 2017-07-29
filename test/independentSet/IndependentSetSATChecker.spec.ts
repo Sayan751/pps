@@ -128,4 +128,22 @@ describe("IndependentSetSATChecker test suite", () => {
             expect(IndependentSetSATChecker.isSat(str)).toBe(true);
         });
     });
+    describe("satisfiability should be determined correctly when CNF#isSat is used", () => {
+        it(`x ${Connectives.and} ${Connectives.not}x should not be satisfiable`, () => {
+            const cnf = new CNF([
+                new Clause([new Literal("x")]),
+                new Clause([new Literal("x", true)]),
+            ]);
+
+            expect(cnf.isSat(IndependentSetSATChecker)).toBe(false);
+        });
+        it(`(x ${Connectives.or} y) ${Connectives.and} (${Connectives.not}x ${Connectives.or} ${Connectives.not}y) should be satisfiable`, () => {
+            const cnf = new CNF([
+                new Clause([new Literal("x"), new Literal("y")]),
+                new Clause([new Literal("x", true), new Literal("y", true)]),
+            ]);
+
+            expect(cnf.isSat(IndependentSetSATChecker)).toBe(true);
+        });
+    });
 });

@@ -15,8 +15,9 @@
         "test": "test"
     },
     "scripts": {
-        "test": "cross-env NODE_ENV=test TS_NODE_PROJECT=tsconfig.tsnode.json TS_NODE_FAST=true ts-node ./node_modules/karma/bin/karma start karma.conf.js",
-        "prestart": "npm test -- --autoWatch=false --singleRun=true",
+        "cont-test": "cross-env NODE_ENV=test TS_NODE_PROJECT=tsconfig.tsnode.json TS_NODE_FAST=true ts-node ./node_modules/karma/bin/karma start karma.conf.js",
+        "test": "npm run cont-test -- --autoWatch=false --singleRun=true",
+        "prestart": "npm test",
         "start": "gulp build",
         "release": "standard-version",
         "prepublish": "npm start && git push"

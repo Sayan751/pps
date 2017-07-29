@@ -49,6 +49,7 @@
     "merge2": "^1.1.0",
     "require-dir": "^0.3.2",
     "run-sequence": "^2.0.0",
+    "ts-node": "^3.3.0",
     "tslint": "^5.5.0",
     "typescript": "^2.4.1"
   },

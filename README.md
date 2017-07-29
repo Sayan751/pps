@@ -2,6 +2,8 @@
 
 This repository provides well tested implementations of some satisfiability algorithms for propositional formulas.
 
+[![Build Status](https://travis-ci.org/Sayan751/pps.svg?branch=master)](https://travis-ci.org/Sayan751/pps)
+
 [![NPM](https://nodei.co/npm/pps2.png)](https://nodei.co/npm/pps2/)
 
 * [Getting Started](#getting-started)

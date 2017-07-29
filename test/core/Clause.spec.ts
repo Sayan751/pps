@@ -105,6 +105,12 @@ describe("Clause test suite", () => {
 
     describe("clause strings should be correctly parsed", () => {
 
+        it("The string 'a and b or c' should not be parsed to a conjunctive Clause object", () => {
+            expect(() => Clause.parse("a and b or c")).toThrowError();
+        });
+        it("The string 'a or b and c' should not be parsed to a conjunctive Clause object", () => {
+            expect(() => Clause.parse("a or b and c")).toThrowError();
+        });
         it("The string 'a and b' should be parsed to a conjunctive Clause object", () => {
             const conjctClause = Clause.parse("a and b");
             expect(conjctClause).toBeDefined();

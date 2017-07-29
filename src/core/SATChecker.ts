@@ -1,7 +1,7 @@
 import { CNF } from "./CNF";
 /**
  * General interface for the SAT checker algorithms.
- * Note that the SAT checker algorithms do not necessarily implement this interface. 
+ * Note that the SAT checker algorithms do not necessarily implement this interface.
  * This is more like to provide the duck typing.
  * @export
  * @interface SATChecker

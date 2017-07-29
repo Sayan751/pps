@@ -1,6 +1,7 @@
-import { andRegex, Connectives, orRegex, Symbols } from "./Constants";
+import { andRegex, ClausalConnectives, Connectives, orRegex, Symbols } from "./Constants";
 import { Literal } from "./Literal";
 
+// TODO: support conjunctive clause
 export class Clause {
     /**
      * Parses string representation to Clause object.
@@ -11,8 +12,16 @@ export class Clause {
      * @memberof Clause
      */
     public static parse(str: string): Clause {
-        if (andRegex.test(str)) throw new Error(`'${str}' is not a Clause`);
-        return new Clause(str.trim().replace(/(\(|\))/g, "").trim().split(orRegex).map((litStr: string) => Literal.parse(litStr)));
+        const isConjunctive = andRegex.test(str);
+        const isDisjunctive = orRegex.test(str);
+        if (isConjunctive && isDisjunctive) throw new Error(`'${str}' is not a Clause`);
+        return new Clause(
+            str.trim()
+                .replace(/(\(|\))/g, "")
+                .trim()
+                .split(isDisjunctive ? orRegex : andRegex)
+                .map((litStr: string) => Literal.parse(litStr)),
+            isDisjunctive ? Connectives.or : Connectives.and);
     }
     /**
      * Returns the set of variables used in the clause.
@@ -21,9 +30,20 @@ export class Clause {
      * @memberof Clause
      */
     public readonly variableSet: Set<string>;
+    /**
+     * true if the clause is a disjunctive clause (default);
+     * false if the clause is a conjunctive clause.
+     *
+     * @type {boolean}
+     * @memberof Clause
+     */
+    public readonly isDisjunctive: boolean = true;
 
-    constructor(readonly literals: Literal[]) {
-        if (!literals) throw Error("Invalid argument 'literals'");
+    constructor(readonly literals: Literal[], readonly connective: ClausalConnectives = Connectives.or) {
+        if (!literals || !(connective === Connectives.and || connective === Connectives.or)) {
+            throw Error("Invalid argument 'literals'");
+        }
+        this.isDisjunctive = connective === Connectives.or;
         this.variableSet = new Set(literals.map((lit) => lit.variable));
     }
 
@@ -45,7 +65,7 @@ export class Clause {
      * @memberof Clause
      */
     public isHorn(): boolean {
-        return this.literals.filter((lit: Literal) => !lit.isNegative).length <= 1;
+        return this.isDisjunctive && this.literals.filter((lit: Literal) => !lit.isNegative).length <= 1;
     }
 
     /**
@@ -59,7 +79,9 @@ export class Clause {
     }
 
     public isSatForTruthAssignment(truthAssignment: Map<string, boolean>) {
-        return this.literals.some((lit: Literal) => lit.isSatForTruthAssignment(truthAssignment));
+        return this.isDisjunctive
+            ? this.literals.some((lit: Literal) => lit.isSatForTruthAssignment(truthAssignment))
+            : this.literals.every((lit: Literal) => lit.isSatForTruthAssignment(truthAssignment));
     }
 
     public toString() {
@@ -68,7 +90,7 @@ export class Clause {
             : `(${
             this.literals
                 .map((lit: Literal) => lit.toString())
-                .join(` ${Connectives.or} `)
+                .join(` ${this.connective} `)
             })`;
     }
 }

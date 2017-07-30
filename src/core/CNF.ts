@@ -13,7 +13,7 @@ export class CNF {
      * @memberof CNF
      */
     public static parse(str: string): CNF {
-        return new CNF(str.trim().split(andRegex).map((clauseStr: string) => Clause.parse(clauseStr)));
+        return new CNF(str.trim().split(andRegex).map((clauseStr: string) => Clause.parse(clauseStr, true)));
     }
 
     /**
@@ -25,6 +25,9 @@ export class CNF {
     public readonly variableSet: Set<string>;
 
     constructor(readonly clauses: Clause[]) {
+        if (this.clauses.some((clause: Clause) => !clause.isDisjunctive)) {
+            throw new Error("Not all of the clauses are disjunctive. All clauses needs to be disjunctive in a CNF.");
+        }
         this.clauses = this.clauses.filter((clause: Clause) => !clause.isEmpty());
         this.variableSet = this.clauses
             .map((clause) => clause.variableSet)

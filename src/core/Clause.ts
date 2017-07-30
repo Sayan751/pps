@@ -11,10 +11,26 @@ export class Clause {
      * @returns {Clause} a equivalent Clause object.
      * @memberof Clause
      */
-    public static parse(str: string): Clause {
-        const isConjunctive = andRegex.test(str);
-        const isDisjunctive = orRegex.test(str);
-        if (isConjunctive && isDisjunctive) throw new Error(`'${str}' is not a Clause`);
+    public static parse(str: string, isDisjunctiveByDefault: boolean = true): Clause {
+        const parenStartIndex = str.indexOf("(");
+        const parenEndIndex = str.indexOf(")");
+        if ((parenStartIndex > -1 && parenEndIndex === -1) ||
+            (parenStartIndex === -1 && parenEndIndex > -1) ||
+            (parenEndIndex < parenStartIndex)) {
+            throw new Error(`'${str}' is not a Clause`);
+        }
+        let isConjunctive = andRegex.test(str);
+        let isDisjunctive = orRegex.test(str);
+        if (isConjunctive && isDisjunctive) {
+            throw new Error(`'${str}' is not a Clause`);
+        }
+        if (!isConjunctive && !isDisjunctive) {
+            if (isDisjunctiveByDefault) {
+                isDisjunctive = true;
+            } else {
+                isConjunctive = true;
+            }
+        }
         return new Clause(
             str.trim()
                 .replace(/(\(|\))/g, "")

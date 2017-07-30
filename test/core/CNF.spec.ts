@@ -31,6 +31,13 @@ describe("CNF test suite", () => {
             expect(cnf.numVariables).toBe(3);
             expect(cnf.isEmpty()).toBe(false);
         });
+
+        it("Conjunctive clause in CNF is not possible", () => {
+            expect(() => new CNF([
+                new Clause([new Literal("z", true), new Literal("y")], Connectives.and),
+                new Clause([new Literal("x"), new Literal("x", true)])
+            ])).toThrowError();
+        });
     });
 
     describe("Aspects of the clause should be correctly projected", () => {
@@ -73,7 +80,7 @@ describe("CNF test suite", () => {
             expect(() => CNF.parse(`(a or b not) and (b or c)`)).toThrowError();
         });
 
-        xit(`The string '(a and b) or (c and d)' should not be parsed to a CNF object`, () => {
+        it(`The string '(a and b) or (c and d)' should not be parsed to a CNF object`, () => {
             expect(() => CNF.parse(`(a and b) or (c and d)`)).toThrowError();
         });
 

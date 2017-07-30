@@ -9,6 +9,27 @@ NNF schema:
     3. A literal is in NNF.
     4. A NNF can either be a literal or a group (as describe above).
 */
+import { CNF } from "./CNF";
 export class NNF {
 
+    /**
+     * Parses the given string to equivalent NNF.
+     * Throws error if the input string is invalid.
+     * @static
+     * @param {string} str input string.
+     * @returns {(NNF | undefined)} Equivalent NNF.
+     * @memberof NNF
+     */
+    public static parse(str: string): NNF | undefined {
+        return undefined;
+    }
+
+    /**
+     * Converts this NNF to an equivalent CNF using parallel-serial algorithm.
+     * @returns {(NNF | undefined)} an equivalent CNF.
+     * @memberof NNF
+     */
+    public convertToNNF(): NNF | undefined {
+        return undefined;
+    }
 }

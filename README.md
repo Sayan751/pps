@@ -12,6 +12,8 @@ This repository provides well tested implementations of some satisfiability algo
 * [Implemented Satisfiability Algorithms](#implemented-satisfiability-algorithms)
   * [Truth Table](#truth-table)
   * [Independent Set](#independent-set)
+  * [2-SAT](#2-sat)
+* [Check satisfiability of `CNF` object directly](#check-satisfiability-of-cnf-object-directly)
 
 ## Getting Started ##
 
@@ -147,6 +149,21 @@ import { IndependentSetSATChecker } from "pps2";
 IndependentSetSATChecker.isSat("x AND (NOTx OR y) AND (NOTy OR z) AND NOTz"); //false
 
 IndependentSetSATChecker.isSat("x OR NOTx"); //true
+```
+
+## 2-SAT ##
+
+This algorithm first transforms every clause in CNF to implication form.
+Form the implication forms, it generates a directed graph, and concludes the formula to unsatisfiable if the graph contains a [strongly connected component (SCC)](https://en.wikipedia.org/wiki/Strongly_connected_component), with complimentary pair of literals in it.
+
+```javascript
+import { TwoSATChecker } from "pps2";
+
+// use a string
+TwoSATChecker.isSat("x AND NOTx"); //false
+
+//or use a CNF object
+TwoSATChecker.isSat(new CNF(...));
 ```
 
 ## Check satisfiability of `CNF` object directly ##

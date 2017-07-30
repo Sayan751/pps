@@ -1,7 +1,7 @@
 import { andRegex, ClausalConnectives, Connectives, orRegex, Symbols } from "./Constants";
+import { Implication } from "./Implication";
 import { Literal } from "./Literal";
 
-// TODO: support conjunctive clause
 export class Clause {
     /**
      * Parses string representation to Clause object.
@@ -98,6 +98,19 @@ export class Clause {
         return this.isDisjunctive
             ? this.literals.some((lit: Literal) => lit.isSatForTruthAssignment(truthAssignment))
             : this.literals.every((lit: Literal) => lit.isSatForTruthAssignment(truthAssignment));
+    }
+
+    /**
+     * Converts this clause to an implication.
+     * @returns {Implication} An equivalent implication object.
+     * @memberof Clause
+     * @throws If this clauses is not a 2-Clause (only 2-clauses are supported at this moment).
+     */
+    public toImplication() {
+        if (!this.isDisjunctive) { throw new Error("Conversion from a non-disjunctive clause to implication is not supported."); }
+        if (this.literals.length >= 3) { throw new Error("Conversion from a k-clause, with k>=3, to implication is not supported at this moment."); }
+        const [left, consequence] = this.literals;
+        return new Implication(left.negated(), consequence || left);
     }
 
     public toString() {

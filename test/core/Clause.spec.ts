@@ -7,6 +7,12 @@ describe("Clause test suite", () => {
 
     describe("Properties should be initialized properly", () => {
 
+        it("Invalid literal input causes error", () => {
+            expect(() => new Clause(undefined)).toThrowError();
+        });
+        it("Invalid connective input causes error", () => {
+            expect(() => new Clause([], Connectives.not)).toThrowError();
+        });
         it("Empty clause is possible", () => {
             const emptyClause = new Clause([]);
             expect(emptyClause).toBeDefined();
@@ -21,11 +27,21 @@ describe("Clause test suite", () => {
             expect(clause.connective).toBe(Connectives.or);
             expect(clause.isDisjunctive).toBe(true);
         });
-        it("Valid conjunctive clause should be created", () => {
+        it("Valid conjunctive clause (x and NOTx) should be created", () => {
             const clause = new Clause([new Literal("x"), new Literal("x", true)], Connectives.and);
             expect(clause).toBeDefined();
             expect(clause.literals).toBeDefined();
             expect(clause.literals.length).toBe(2);
+            expect(clause.variableSet).toBeDefined();
+            expect(clause.numVariables).toBeDefined();
+            expect(clause.connective).toBe(Connectives.and);
+            expect(clause.isDisjunctive).toBe(false);
+        });
+        it("Valid conjunctive clause (x) should be created", () => {
+            const clause = new Clause([new Literal("x")], Connectives.and);
+            expect(clause).toBeDefined();
+            expect(clause.literals).toBeDefined();
+            expect(clause.literals.length).toBe(1);
             expect(clause.variableSet).toBeDefined();
             expect(clause.numVariables).toBeDefined();
             expect(clause.connective).toBe(Connectives.and);
@@ -161,6 +177,12 @@ describe("Clause test suite", () => {
             expect(clause).toBeDefined();
             expect(clause.toString()).toBe(`(a ${Connectives.or} b)`);
         });
+        it("The string 'x' can be forced to be parsed to a conjunctive Clause object", () => {
+            const clause = Clause.parse("x", false);
+            expect(clause).toBeDefined();
+            expect(clause.toString()).toBe(`(x)`);
+            expect(clause.isDisjunctive).toBe(false);
+        });
     });
 
     describe("Satisfiability of clause should be correctly determined for a given truth assignment", () => {
@@ -189,4 +211,34 @@ describe("Clause test suite", () => {
             expect(clause.isSatForTruthAssignment(new Map<string, boolean>([["x", false]]))).toBe(false);
         });
     });
+
+    describe("Conversion to implication should be correctly done", () => {
+        it("Conjunctive clauses can't be converted to implication", () => {
+            const clause = new Clause([new Literal("x"), new Literal("y")], Connectives.and);
+            expect(() => clause.toImplication()).toThrowError();
+        });
+        it("k-clauses (disjunctive), with k>=3 can't be converted to implication", () => {
+            expect(() => new Clause([new Literal("x"), new Literal("y"), new Literal("z")]).toImplication()).toThrowError();
+            expect(() => new Clause([new Literal("x"), new Literal("y"), new Literal("z"), new Literal("a")]).toImplication()).toThrowError();
+        });
+        it("(x) can be converted to implication", () => {
+            const implication = new Clause([new Literal("x")]).toImplication();
+            expect(implication).toBeDefined();
+            expect(implication.premise.toString()).toBe(`${Connectives.not}x`);
+            expect(implication.consequence.toString()).toBe(`x`);
+        });
+        it("(x or y) can be converted to implication", () => {
+            const implication = new Clause([new Literal("x"), new Literal("y")]).toImplication();
+            expect(implication).toBeDefined();
+            expect(implication.premise.toString()).toBe(`${Connectives.not}x`);
+            expect(implication.consequence.toString()).toBe(`y`);
+        });
+        it("(notx or y) can be converted to implication", () => {
+            const implication = new Clause([new Literal("x", true), new Literal("y")]).toImplication();
+            expect(implication).toBeDefined();
+            expect(implication.premise.toString()).toBe(`x`);
+            expect(implication.consequence.toString()).toBe(`y`);
+        });
+    });
+
 });

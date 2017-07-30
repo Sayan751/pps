@@ -25,6 +25,14 @@ export class Literal {
         return truthValue !== undefined ? (this.isNegative ? !truthValue : truthValue) : false;
     }
 
+    /**
+     * Returns a negated literal. This literal stays unchanged.
+     * @memberof Literal
+     */
+    public negated() {
+        return new Literal(this.variable, !this.isNegative);
+    }
+
     public toString() {
         return `${this.isNegative ? Connectives.not : ""}${this.variable}`;
     }

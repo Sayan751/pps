@@ -20,16 +20,16 @@ export class NNF {
      * @returns {(NNF | undefined)} Equivalent NNF.
      * @memberof NNF
      */
-    public static parse(str: string): NNF | undefined {
-        return undefined;
-    }
+    // public static parse(str: string): NNF | undefined {
+    //     return undefined;
+    // }
 
     /**
      * Converts this NNF to an equivalent CNF using parallel-serial algorithm.
      * @returns {(NNF | undefined)} an equivalent CNF.
      * @memberof NNF
      */
-    public convertToNNF(): NNF | undefined {
-        return undefined;
-    }
+    // public convertToNNF(): NNF | undefined {
+    //     return undefined;
+    // }
 }

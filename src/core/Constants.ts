@@ -4,7 +4,8 @@ export class Symbols {
 export enum Connectives {
     not = "\u00AC",
     or = "\u2228",
-    and = "\u2227"
+    and = "\u2227",
+    implication = "\u2192"
 }
 
 export const andRegex = new RegExp(`and|${Connectives.and}|&&`, "i");

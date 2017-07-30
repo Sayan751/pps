@@ -8,7 +8,7 @@ module.exports = function(config) {
         files: ['src/**/*.ts', 'test/**/*.spec.ts'], // list of files / patterns to load in the browser
         exclude: ['dist/**/*'], // list of files to exclude
         preprocessors: { "**/*.ts": ["karma-typescript"], }, // preprocess matching files before serving them to the browser.  available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-        reporters: ["mocha", "karma-typescript", 'coverage'], // test results reporter to use. available reporters: https://npmjs.org/browse/keyword/karma-reporter
+        reporters: ["mocha", "karma-typescript"], // test results reporter to use. available reporters: https://npmjs.org/browse/keyword/karma-reporter
         port: 9876, // web server port
         colors: true, // enable / disable colors in the output (reporters and logs)
         logLevel: config.LOG_INFO, // level of logging. possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
@@ -18,8 +18,11 @@ module.exports = function(config) {
         concurrency: Infinity, // Concurrency level: how many browser should be started simultaneous
         karmaTypescriptConfig: {
             tsconfig: "./tsconfig.json",
-            include: ["./src/**/*", "./test/**/*.spec.ts"]
-        },
-        coverageReporter: { reporters: [{ type: 'lcovonly', subdir: '.' }] },
+            include: ["./src/**/*", "./test/**/*.spec.ts"],
+            reports: {
+                "lcovonly": "coverage",
+                "html": "coverage"
+            }
+        }
     })
 }

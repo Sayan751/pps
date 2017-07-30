@@ -151,7 +151,7 @@ IndependentSetSATChecker.isSat("x AND (NOTx OR y) AND (NOTy OR z) AND NOTz"); //
 IndependentSetSATChecker.isSat("x OR NOTx"); //true
 ```
 
-## 2-SAT ##
+### 2-SAT ###
 
 This algorithm first transforms every clause in CNF to implication form.
 Form the implication forms, it generates a directed graph, and concludes the formula to unsatisfiable if the graph contains a [strongly connected component (SCC)](https://en.wikipedia.org/wiki/Strongly_connected_component), with complimentary pair of literals in it.

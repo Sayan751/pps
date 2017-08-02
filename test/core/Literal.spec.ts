@@ -97,4 +97,25 @@ describe("Literal test suite", () => {
             expect(lit.toString()).toBe(`${Connectives.not}x`);
         });
     });
+
+    describe("Satisfiability of Literal should be correctly determined for a given truth assignment", () => {
+        it("x should be satisfiable for x=true", () => {
+            const lit = new Literal("x");
+            expect(lit.isSatForTruthAssignment(new Map<string, boolean>([["x", true]]))).toBe(true);
+        });
+        it("x should not be satisfiable for x=false", () => {
+            const lit = new Literal("x");
+            expect(lit.isSatForTruthAssignment(new Map<string, boolean>([["x", false]]))).toBe(false);
+        });
+        it("x should not be satisfiable if the given truth assignment does not provide a value for x", () => {
+            const lit = new Literal("x");
+            expect(lit.isSatForTruthAssignment(new Map<string, boolean>([["y", true]]))).toBe(false);
+            expect(lit.isSatForTruthAssignment(new Map<string, boolean>())).toBe(false);
+        });
+        it("x should not be satisfiable if the given truth assignment is falsy", () => {
+            const lit = new Literal("x");
+            expect(lit.isSatForTruthAssignment(null)).toBe(false);
+            expect(lit.isSatForTruthAssignment(undefined)).toBe(false);
+        });
+    });
 });

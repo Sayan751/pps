@@ -21,8 +21,14 @@ export class Literal {
     }
 
     public isSatForTruthAssignment(truthAssignment: Map<string, boolean>) {
-        const truthValue = truthAssignment.get(this.variable);
-        return truthValue !== undefined ? (this.isNegative ? !truthValue : truthValue) : false;
+        let retVal = false;
+        if (truthAssignment) {
+            const truthValue = truthAssignment.get(this.variable);
+            if (truthValue !== undefined) {
+                retVal = (this.isNegative ? !truthValue : truthValue);
+            }
+        }
+        return retVal;
     }
 
     /**

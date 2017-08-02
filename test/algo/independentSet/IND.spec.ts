@@ -1,7 +1,7 @@
-import { Clause } from "../../src/core/Clause";
-import { Literal } from "../../src/core/Literal";
-import { IND } from "../../src/independentSet/IND";
-import { IndependentSet } from "../../src/independentSet/IndependentSet";
+import { IND } from "../../../src/algo/independentSet/IND";
+import { IndependentSet } from "../../../src/algo/independentSet/IndependentSet";
+import { Clause } from "../../../src/core/Clause";
+import { Literal } from "../../../src/core/Literal";
 
 describe("IND test suite", () => {
     describe("IND instantiation should be correct", () => {

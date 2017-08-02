@@ -1,6 +1,6 @@
-import { Clause } from "../../src/core/Clause";
-import { Literal } from "../../src/core/Literal";
-import { IndependentSet } from "../../src/independentSet/IndependentSet";
+import { IndependentSet } from "../../../src/algo/independentSet/IndependentSet";
+import { Clause } from "../../../src/core/Clause";
+import { Literal } from "../../../src/core/Literal";
 
 describe("IndependentSet test suite", () => {
 

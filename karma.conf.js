@@ -7,7 +7,7 @@ module.exports = function(config) {
         frameworks: ['jasmine', "karma-typescript"], // frameworks to use. available frameworks: https://npmjs.org/browse/keyword/karma-adapter
         files: ['src/**/*.ts', 'test/**/*.spec.ts'], // list of files / patterns to load in the browser
         exclude: ['dist/**/*'], // list of files to exclude
-        preprocessors: { "**/*.ts": ["karma-typescript"], }, // preprocess matching files before serving them to the browser.  available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+        preprocessors: { "**/*.ts": ["karma-typescript"] }, // preprocess matching files before serving them to the browser.  available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         reporters: ["mocha", "karma-typescript"], // test results reporter to use. available reporters: https://npmjs.org/browse/keyword/karma-reporter
         port: 9876, // web server port
         colors: true, // enable / disable colors in the output (reporters and logs)

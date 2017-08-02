@@ -1,10 +1,10 @@
 import "babel-polyfill";
+import { TruthTableSATChecker } from "../../src/algo/TruthTableSATChecker";
 import { Clause } from "../../src/core/Clause";
 import { CNF } from "../../src/core/CNF";
 import { Connectives } from "../../src/core/Constants";
 import { Literal } from "../../src/core/Literal";
 import { Utility } from "../../src/core/Utility";
-import { TruthTableSATChecker } from "../../src/truthTable/TruthTableSATChecker";
 
 describe("TruthTableSATChecker test suite", () => {
 

@@ -1,6 +1,6 @@
-import { Clause } from "../core/Clause";
-import { CNF } from "../core/CNF";
-import { Utility } from "../core/Utility";
+import { Clause } from "../../core/Clause";
+import { CNF } from "../../core/CNF";
+import { Utility } from "../../core/Utility";
 import { IND } from "./IND";
 import { IndependentSet } from "./IndependentSet";
 export class IndependentSetSATChecker {

@@ -1,5 +1,5 @@
 import "babel-polyfill";
-import { TwoSATChecker } from "../../src/2-SAT/TwoSATChecker";
+import { TwoSATChecker } from "../../src/algo/TwoSATChecker";
 import { Clause } from "../../src/core/Clause";
 import { CNF } from "../../src/core/CNF";
 import { Connectives } from "../../src/core/Constants";

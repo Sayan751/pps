@@ -1,9 +1,9 @@
 import "babel-polyfill";
-import { Clause } from "../../src/core/Clause";
-import { CNF } from "../../src/core/CNF";
-import { Connectives } from "../../src/core/Constants";
-import { Literal } from "../../src/core/Literal";
-import { IndependentSetSATChecker } from "../../src/independentSet/IndependentSetSATChecker";
+import { IndependentSetSATChecker } from "../../../src/algo/independentSet/IndependentSetSATChecker";
+import { Clause } from "../../../src/core/Clause";
+import { CNF } from "../../../src/core/CNF";
+import { Connectives } from "../../../src/core/Constants";
+import { Literal } from "../../../src/core/Literal";
 
 describe("IndependentSetSATChecker test suite", () => {
 

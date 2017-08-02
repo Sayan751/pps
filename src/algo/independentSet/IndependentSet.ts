@@ -1,6 +1,6 @@
-import { Clause } from "../core/Clause";
-import { CNF } from "../core/CNF";
-import { Literal } from "../core/Literal";
+import { Clause } from "../../core/Clause";
+import { CNF } from "../../core/CNF";
+import { Literal } from "../../core/Literal";
 
 export class IndependentSet {
 

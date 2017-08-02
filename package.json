@@ -1,66 +1,66 @@
 {
-  "name": "pps2",
-  "version": "1.2.0",
-  "description": "Propositional proof system",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Sayan751/pps.git"
-  },
-  "main": "dist/index.js",
-  "typings": "dist/definitions/index",
-  "typescript": {
-    "definition": "dist/definitions/index"
-  },
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "cont-test": "cross-env NODE_ENV=test TS_NODE_PROJECT=tsconfig.tsnode.json TS_NODE_FAST=true ts-node ./node_modules/karma/bin/karma start karma.conf.js",
-    "test": "npm run cont-test -- --autoWatch=false --singleRun=true --browsers=PhantomJS",
-    "posttest": "codecov --file=./coverage/lcov.info",
-    "start": "gulp build",
-    "release": "standard-version",
-    "prepublish": "npm start"
-  },
-  "keywords": [
-    "sat",
-    "propositional-proof-system"
-  ],
-  "author": "Sayan Pal",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/graphlib": "^2.1.4",
-    "@types/jasmine": "^2.5.53",
-    "@types/lodash": "^4.14.71",
-    "@types/node": "^8.0.14",
-    "codecov": "^2.2.0",
-    "cross-env": "^5.0.1",
-    "del": "^2.2.2",
-    "gulp": "^3.9.1",
-    "gulp-create-tsindex": "^1.0.4",
-    "gulp-tslint": "^8.1.1",
-    "gulp-typescript": "^3.2.1",
-    "jasmine": "^2.6.0",
-    "jasmine-core": "^2.6.4",
-    "karma": "^1.7.0",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-firefox-launcher": "^1.0.1",
-    "karma-ie-launcher": "^1.0.0",
-    "karma-jasmine": "^1.1.0",
-    "karma-mocha-reporter": "^2.2.3",
-    "karma-phantomjs-launcher": "^1.0.4",
-    "karma-typescript": "^3.0.4",
-    "merge2": "^1.1.0",
-    "require-dir": "^0.3.2",
-    "run-sequence": "^2.0.0",
-    "ts-node": "^3.3.0",
-    "tslint": "^5.5.0",
-    "typescript": "^2.4.1"
-  },
-  "dependencies": {
-    "babel": "^6.23.0",
-    "babel-polyfill": "^6.23.0",
-    "graphlib": "^2.1.1",
-    "lodash": "^4.17.4"
-  }
+    "name": "pps2",
+    "version": "1.2.0",
+    "description": "Propositional proof system",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Sayan751/pps.git"
+    },
+    "main": "dist/index.js",
+    "typings": "dist/definitions/index",
+    "typescript": {
+        "definition": "dist/definitions/index"
+    },
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "cont-test": "cross-env NODE_ENV=test TS_NODE_PROJECT=tsconfig.tsnode.json TS_NODE_FAST=true ts-node ./node_modules/karma/bin/karma start karma.conf.js",
+        "test": "npm run cont-test -- --autoWatch=false --singleRun=true --browsers=PhantomJS",
+        "posttest": "codecov --file=./coverage/lcov/lcov.info",
+        "start": "gulp build",
+        "release": "standard-version",
+        "prepublish": "npm start"
+    },
+    "keywords": [
+        "sat",
+        "propositional-proof-system"
+    ],
+    "author": "Sayan Pal",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/graphlib": "^2.1.4",
+        "@types/jasmine": "^2.5.53",
+        "@types/lodash": "^4.14.71",
+        "@types/node": "^8.0.14",
+        "codecov": "^2.2.0",
+        "cross-env": "^5.0.1",
+        "del": "^2.2.2",
+        "gulp": "^3.9.1",
+        "gulp-create-tsindex": "^1.0.4",
+        "gulp-tslint": "^8.1.1",
+        "gulp-typescript": "^3.2.1",
+        "jasmine": "^2.6.0",
+        "jasmine-core": "^2.6.4",
+        "karma": "^1.7.0",
+        "karma-chrome-launcher": "^2.2.0",
+        "karma-firefox-launcher": "^1.0.1",
+        "karma-ie-launcher": "^1.0.0",
+        "karma-jasmine": "^1.1.0",
+        "karma-mocha-reporter": "^2.2.3",
+        "karma-phantomjs-launcher": "^1.0.4",
+        "karma-typescript": "^3.0.4",
+        "merge2": "^1.1.0",
+        "require-dir": "^0.3.2",
+        "run-sequence": "^2.0.0",
+        "ts-node": "^3.3.0",
+        "tslint": "^5.5.0",
+        "typescript": "^2.4.1"
+    },
+    "dependencies": {
+        "babel": "^6.23.0",
+        "babel-polyfill": "^6.23.0",
+        "graphlib": "^2.1.1",
+        "lodash": "^4.17.4"
+    }
 }

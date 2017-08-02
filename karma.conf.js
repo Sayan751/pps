@@ -20,7 +20,11 @@ module.exports = function(config) {
             tsconfig: "./tsconfig.json",
             include: ["./src/**/*", "./test/**/*.spec.ts"],
             reports: {
-                "lcovonly": "coverage",
+                "lcovonly": {
+                    "directory": "coverage", // optional, defaults to 'coverage' 
+                    "subdirectory": "lcov", // optional, defaults to the name of the browser running the tests 
+                    "filename": "lcov.info" // optional, defaults to the report name 
+                },
                 "html": "coverage"
             }
         }

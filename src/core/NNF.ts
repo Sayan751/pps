@@ -14,7 +14,8 @@ export class NNF {
 
         if (this.isLiteralGroup(group)) {
             this.variableSet = new Set<string>(group.map((lit) => lit.variable));
-        } else if (this.isNNFGroup(group)) {
+        }
+        if (this.isNNFGroup(group)) {
             this.variableSet = group
                 .reduce((acc: Set<string>, nnf: NNF) => {
                     Array.from(nnf.variableSet)
@@ -27,9 +28,7 @@ export class NNF {
         return `(` +
             (this.isLiteralGroup(this.group)
                 ? this.group.map((item: Literal) => item.toString()).join(` ${this.connective} `)
-                : this.isNNFGroup(this.group)
-                    ? this.group.map((item: NNF) => item.toString()).join(` ${this.connective} `)
-                    : "")
+                : this.group.map((item: NNF) => item.toString()).join(` ${this.connective} `))
             + `)`;
     }
 

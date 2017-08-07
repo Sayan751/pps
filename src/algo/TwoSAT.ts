@@ -7,7 +7,7 @@ import { Utility } from "../core/Utility";
 /**
  * Provides implementation of 2-SAT algorithm.
  * @export
- * @class TwoSATChecker
+ * @class TwoSAT
  */
 export class TwoSAT {
     /**
@@ -16,7 +16,7 @@ export class TwoSAT {
      * @static
      * @param {CNF} cnf input cnf formula
      * @returns {boolean} true if the input cnf is satisfiable, else false.
-     * @memberof TwoSATChecker
+     * @memberof TwoSAT
      */
     public static isSat(cnf: CNF | string): boolean {
         if (typeof cnf === "string") {

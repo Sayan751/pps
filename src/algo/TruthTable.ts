@@ -8,7 +8,7 @@ export class TruthTable {
      * @static
      * @param {CNF} cnf input cnf formula
      * @returns {boolean} true if the input cnf is satisfiable, else false.
-     * @memberof TruthTableSATChecker
+     * @memberof TruthTable
      */
     public static isSat(cnf: CNF | string): boolean {
         return TruthTable.process(cnf) as boolean;

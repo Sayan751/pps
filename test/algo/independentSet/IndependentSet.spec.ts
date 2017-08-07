@@ -5,7 +5,7 @@ import { CNF } from "../../../src/core/CNF";
 import { Connectives } from "../../../src/core/Constants";
 import { Literal } from "../../../src/core/Literal";
 
-describe("IndependentSetSATChecker test suite", () => {
+describe("IndependentSet test suite", () => {
 
     describe("satisfiability should be determined correctly", () => {
         it(`x ${Connectives.and} ${Connectives.not}x should not be satisfiable`, () => {

@@ -10,7 +10,7 @@ export class IndependentSet {
      * @static
      * @param {CNF} cnf input cnf formula
      * @returns {boolean} true if the input cnf is satisfiable, else false.
-     * @memberof IndependentSetSATChecker
+     * @memberof IndependentSet
      */
     public static isSat(cnf: CNF | string): boolean {
         if (typeof cnf === "string")
@@ -25,7 +25,7 @@ export class IndependentSet {
      * @static
      * @param {CNF} cnf input cnf formula
      * @returns {IND[]} the collection of IND(1),IND(2),... etc.
-     * @memberof IndependentSetSATChecker
+     * @memberof IndependentSet
      */
     public static constructINDs(cnf: CNF): IND[] {
         // create IND(1)

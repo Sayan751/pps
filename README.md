@@ -30,13 +30,13 @@ Use it in your code as follows.
 ```javascript
 // using require
 const pps2 = require("pps2");
-pps2.TruthTableSATChecker.isSat("x and notx"); // false
-pps2.TruthTableSATChecker.isSat("x or notx"); // true
+pps2.TruthTable.isSat("x and notx"); // false
+pps2.TruthTable.isSat("x or notx"); // true
 
 // or using ES6 import
-import { TruthTableSATChecker } from "pps2";
-TruthTableSATChecker.isSat("x and notx"); // false
-TruthTableSATChecker.isSat("x or notx"); // true
+import { TruthTable } from "pps2";
+TruthTable.isSat("x and notx"); // false
+TruthTable.isSat("x or notx"); // true
 ```
 
 ## Propositional Formulas ##
@@ -120,20 +120,20 @@ However, it returns true as soon as the first satisfying truth assignment is fou
 Example:
 
 ```javascript
-import { TruthTableSATChecker } from "pps2";
+import { TruthTable } from "pps2";
 
 // unsatisfiable; returns false after trying all 8 truth assignments:
-TruthTableSATChecker.isSat("x AND (NOTx OR y) AND (NOTy OR z) AND NOTz");
+TruthTable.isSat("x AND (NOTx OR y) AND (NOTy OR z) AND NOTz");
 
 // tautology(always satisfiable); returns true after trying only 1 truth assignment:
-TruthTableSATChecker.isSat("x OR NOTx");
+TruthTable.isSat("x OR NOTx");
 ```
 
-Additionally, `TruthTableSATChecker` can also return the satisfiable model for a given propositional formula in `CNF`.
+Additionally, `TruthTable` can also return the satisfiable model for a given propositional formula in `CNF`.
 Example:
 
 ```javascript
-TruthTableSATChecker.getModel("x or notx"); // [ Map { 'x' => false }, Map { 'x' => true } ]
+TruthTable.getModel("x or notx"); // [ Map { 'x' => false }, Map { 'x' => true } ]
 ```
 
 ### Independent Set Algorithm ###
@@ -144,11 +144,11 @@ If the count is 2<sup>n</sup> for a formula with `n` variable then the formula i
 Example:
 
 ```javascript
-import { IndependentSetSATChecker } from "pps2";
+import { IndependentSet } from "pps2";
 
-IndependentSetSATChecker.isSat("x AND (NOTx OR y) AND (NOTy OR z) AND NOTz"); //false
+IndependentSet.isSat("x AND (NOTx OR y) AND (NOTy OR z) AND NOTz"); //false
 
-IndependentSetSATChecker.isSat("x OR NOTx"); //true
+IndependentSet.isSat("x OR NOTx"); //true
 ```
 
 ### 2-SAT ###
@@ -157,13 +157,13 @@ This algorithm first transforms every clause in CNF to implication form.
 Form the implication forms, it generates a directed graph, and concludes the formula to unsatisfiable if the graph contains a [strongly connected component (SCC)](https://en.wikipedia.org/wiki/Strongly_connected_component), with complimentary pair of literals in it.
 
 ```javascript
-import { TwoSATChecker } from "pps2";
+import { TwoSAT } from "pps2";
 
 // use a string
-TwoSATChecker.isSat("x AND NOTx"); //false
+TwoSAT.isSat("x AND NOTx"); //false
 
 //or use a CNF object
-TwoSATChecker.isSat(new CNF(...));
+TwoSAT.isSat(new CNF(...));
 ```
 
 ## Check satisfiability of `CNF` object directly ##
@@ -177,9 +177,9 @@ const cnf = new CNF([...]);
 // CNF#isSat signature: isSat(satChecker: SATChecker): boolean
 // so we need to pass the algorithm we want use:
 
-cnf.isSat(TruthTableSATChecker);
+cnf.isSat(TruthTable);
 // OR
-cnf.isSat(IndependentSetSATChecker);
+cnf.isSat(IndependentSet);
 ```
 
 Neat!

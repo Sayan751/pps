@@ -9,7 +9,7 @@ export class NNF {
      * @memberof Clause
      */
     public readonly variableSet: Set<string>;
-    constructor(public group: Literal[] | NNF[], public connective?: ClausalConnectives) {
+    constructor(readonly group: Literal[] | NNF[], readonly connective?: ClausalConnectives) {
         if (group.length > 1 && !connective) { throw new Error("Connective is required for multiple items in the group"); }
 
         if (this.isLiteralGroup(group)) {
@@ -24,6 +24,25 @@ export class NNF {
                 }, new Set<string>());
         }
     }
+    public isSatForTruthAssignment(truthAssignment: Map<string, boolean>): boolean {
+        let retVal = false;
+        switch (this.connective) {
+            case Connectives.and:
+                retVal = this.isLiteralGroup(this.group)
+                    ? this.group.every((item: Literal) => item.isSatForTruthAssignment(truthAssignment))
+                    : this.group.every((item: NNF) => item.isSatForTruthAssignment(truthAssignment));
+                break;
+            case Connectives.or:
+                retVal = this.isLiteralGroup(this.group)
+                    ? this.group.some((item: Literal) => item.isSatForTruthAssignment(truthAssignment))
+                    : this.group.some((item: NNF) => item.isSatForTruthAssignment(truthAssignment));
+                break;
+            default:
+                retVal = this.group[0].isSatForTruthAssignment(truthAssignment);
+        }
+        return retVal;
+    }
+
     public toString(): string {
         return `(` +
             (this.isLiteralGroup(this.group)

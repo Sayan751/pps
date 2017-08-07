@@ -4,6 +4,7 @@ import { Clause } from "../../src/core/Clause";
 import { CNF } from "../../src/core/CNF";
 import { Connectives } from "../../src/core/Constants";
 import { Literal } from "../../src/core/Literal";
+import { NNF } from "../../src/core/NNF";
 import { Utility } from "../../src/core/Utility";
 
 describe("TruthTable test suite", () => {
@@ -221,6 +222,39 @@ describe("TruthTable test suite", () => {
 
             TruthTable.isSat(cnf);
             expect(binaryCombinationsSpy.next).toHaveBeenCalledTimes(2);
+        });
+    });
+
+    describe("equivalence of 2 formulas should be determined correctly", () => {
+        it("x, and NOTx should not be equivalent", () => {
+            expect(TruthTable.isEquivalent(
+                new CNF([new Clause([new Literal("x")])]),
+                new CNF([new Clause([new Literal("x", true)])]))
+            ).toBe(false);
+        });
+        it("x (as CNF), and x (as Literal) should be equivalent", () => {
+            expect(TruthTable.isEquivalent(
+                new CNF([new Clause([new Literal("x")])]),
+                new Literal("x")
+            )).toBe(true);
+        });
+        it("x (as NNF) and x (as CNF) should be equivalent", () => {
+            expect(TruthTable.isEquivalent(
+                new CNF([new Clause([new Literal("x")])]),
+                new NNF([new Literal("x")]))
+            ).toBe(true);
+        });
+        it("x AND NOTx should be equivalent to y AND NOTy", () => {
+            expect(TruthTable.isEquivalent(
+                new CNF([new Clause([new Literal("x")]), new Clause([new Literal("x", true)])]),
+                new CNF([new Clause([new Literal("y")]), new Clause([new Literal("y", true)])])
+            )).toBe(true);
+        });
+        it("x OR NOTx should be equivalent to y OR NOTy", () => {
+            expect(TruthTable.isEquivalent(
+                new CNF([new Clause([new Literal("x"), new Literal("x", true)])]),
+                new CNF([new Clause([new Literal("y"), new Literal("y", true)])])
+            )).toBe(true);
         });
     });
 });

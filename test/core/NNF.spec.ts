@@ -17,6 +17,11 @@ describe("NNF test suite", () => {
             expect(nnf).toBeDefined();
             expect(nnf.variableSet.size).toBe(1);
         });
+        it(`The literals x,${Connectives.not}x connected by OR should be in NNF`, () => {
+            const nnf = new NNF([new Literal("x"), new Literal("x", true)], Connectives.or);
+            expect(nnf).toBeDefined();
+            expect(nnf.variableSet.size).toBe(1);
+        });
         it(`The literals x,y connected by OR should be in NNF`, () => {
             const nnf = new NNF([new Literal("x"), new Literal("y")], Connectives.or);
             expect(nnf).toBeDefined();
@@ -66,6 +71,62 @@ describe("NNF test suite", () => {
                 new NNF([new Literal("a"), new Literal("b")], Connectives.or)
             ], Connectives.and);
             expect(nnf.toString()).toBe(`((x ${Connectives.and} y) ${Connectives.and} (a ${Connectives.or} b))`);
+        });
+    });
+
+    describe("Satisfiability of NNF object should be correctly determined", () => {
+        let nnf1: NNF;
+        let nnf2: NNF;
+        let nnfx: NNF;
+        let nnfnotx: NNF;
+
+        beforeEach(() => {
+            nnf1 = new NNF([
+                new NNF([new Literal("x"), new Literal("y")], Connectives.and),
+                new NNF([new Literal("a"), new Literal("b")], Connectives.or)
+            ], Connectives.and);
+            nnf2 = new NNF([
+                new NNF([new Literal("x"), new Literal("y")], Connectives.and),
+                new NNF([new Literal("a"), new Literal("b")], Connectives.or)
+            ], Connectives.or);
+            nnfx = new NNF([new Literal("x")]);
+            nnfnotx = new NNF([new Literal("x", true)]);
+        });
+        it(`((x AND y) AND (a OR b)) is satisfiable for x=T, y=T, a=T, and b=F`, () => {
+            const truthAssignment = new Map<string, boolean>([["x", true], ["y", true], ["a", true], ["b", false]]);
+            expect(nnf1.isSatForTruthAssignment(truthAssignment)).toBe(true);
+        });
+        it(`((x AND y) AND (a OR b)) is satisfiable for x=T, y=T, a=F, and b=T`, () => {
+            const truthAssignment = new Map<string, boolean>([["x", true], ["y", true], ["a", false], ["b", true]]);
+            expect(nnf1.isSatForTruthAssignment(truthAssignment)).toBe(true);
+        });
+        it(`((x AND y) AND (a OR b)) is not satisfiable for x=F, y=T, a=T, and b=F`, () => {
+            const truthAssignment = new Map<string, boolean>([["x", false], ["y", true], ["a", true], ["b", false]]);
+            expect(nnf1.isSatForTruthAssignment(truthAssignment)).toBe(false);
+        });
+        it(`((x AND y) AND (a OR b)) is not satisfiable for x=T, y=T, a=F, and b=F`, () => {
+            const truthAssignment = new Map<string, boolean>([["x", true], ["y", true], ["a", false], ["b", false]]);
+            expect(nnf1.isSatForTruthAssignment(truthAssignment)).toBe(false);
+        });
+        it(`((x AND y) OR (a OR b)) is satisfiable for x=F, y=T, a=T, and b=F`, () => {
+            const truthAssignment = new Map<string, boolean>([["x", false], ["y", true], ["a", true], ["b", false]]);
+            expect(nnf2.isSatForTruthAssignment(truthAssignment)).toBe(true);
+        });
+        it(`(x) is satisfiable for x=T`, () => {
+            const truthAssignment = new Map<string, boolean>([["x", true]]);
+            expect(nnfx.isSatForTruthAssignment(truthAssignment)).toBe(true);
+        });
+        it(`(x) is not satisfiable for x=F`, () => {
+            const truthAssignment = new Map<string, boolean>([["x", false]]);
+            expect(nnfx.isSatForTruthAssignment(truthAssignment)).toBe(false);
+        });
+        it(`(NOTx) is not satisfiable for x=T`, () => {
+            const truthAssignment = new Map<string, boolean>([["x", true]]);
+            expect(nnfnotx.isSatForTruthAssignment(truthAssignment)).toBe(false);
+        });
+        it(`(NOTx) is satisfiable for x=F`, () => {
+            const truthAssignment = new Map<string, boolean>([["x", false]]);
+            expect(nnfnotx.isSatForTruthAssignment(truthAssignment)).toBe(true);
         });
     });
 });

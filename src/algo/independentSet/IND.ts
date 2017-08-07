@@ -1,9 +1,9 @@
-import { IndependentSet } from "./IndependentSet";
+import { IndSet } from "./IndSet";
 export class IND {
 
-    constructor(private readonly i: number, public independentSets: Set<IndependentSet>) {
+    constructor(private readonly i: number, public independentSets: Set<IndSet>) {
         // Sanity check
-        const isValid = Array.from(independentSets).every((indSet: IndependentSet) => indSet.size === i);
+        const isValid = Array.from(independentSets).every((indSet: IndSet) => indSet.size === i);
         if (!isValid) throw new Error("Invalid arguments; i does not match with the size of all independent sets provided");
     }
 

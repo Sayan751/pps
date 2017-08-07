@@ -1,53 +1,71 @@
 import { Clause } from "../../core/Clause";
 import { CNF } from "../../core/CNF";
-import { Literal } from "../../core/Literal";
-
+import { Utility } from "../../core/Utility";
+import { IND } from "./IND";
+import { IndSet } from "./IndSet";
 export class IndependentSet {
-
-    private numVar: number;
-
-    constructor(readonly clauses: Set<Clause>) {
-        // map: variable name is key, and value is true if the lit is negative
-        const lits = new Map<string, boolean>();
-
-        Array.from(clauses)
-            .forEach((clause: Clause) => {
-                clause.literals.forEach((lit: Literal) => {
-                    const existingSign = lits.get(lit.variable);
-                    if (existingSign !== undefined && existingSign !== lit.isNegative)
-                        throw new Error("Invalid argument; independent set can't have complimentary pair of literals.");
-                    if (existingSign === undefined) lits.set(lit.variable, lit.isNegative);
-                });
-            });
-
-        this.numVar = lits.size;
+    /**
+     * Returns true if the input cnf is satisfiable, else it returns false.
+     *
+     * @static
+     * @param {CNF} cnf input cnf formula
+     * @returns {boolean} true if the input cnf is satisfiable, else false.
+     * @memberof IndependentSetSATChecker
+     */
+    public static isSat(cnf: CNF | string): boolean {
+        if (typeof cnf === "string")
+            cnf = CNF.parse(cnf);
+        const cnfNumVar = cnf.numVariables;
+        return Math.pow(2, cnfNumVar) !== IndependentSet.constructINDs(cnf).reduce((acc, ind) => acc + ind.SIZE(cnfNumVar), 0);
     }
 
     /**
-     * Returns number of clauses in the set.
-     *
-     * @readonly
-     * @memberof IndependentSet
+     * Creates the collection of IND(1),IND(2),... etc.
+     * The maximum length of the returned value is the number of clauses present in the cnf.
+     * @static
+     * @param {CNF} cnf input cnf formula
+     * @returns {IND[]} the collection of IND(1),IND(2),... etc.
+     * @memberof IndependentSetSATChecker
      */
-    get size() { return this.clauses.size; }
+    public static constructINDs(cnf: CNF): IND[] {
+        // create IND(1)
+        const inds: IND[] = [
+            new IND(1, new Set<IndSet>(
+                cnf.clauses.map((clause: Clause) => new IndSet(new Set<Clause>([clause])))
+            ))
+        ];
+        const cnfNumVar = cnf.numVariables;
+        let indIndex = 2; // IND(1) is already generated
+        let toContinue = true;
 
-    /**
-     * Returns SIZE = 2^(numVarInCNF - number of vars in independent set)
-     *
-     * @param {number} numVarInCNF
-     * @returns SIZE = 2^(numVarInCNF - number of vars in independent set)
-     * @memberof IndependentSet
-     */
-    public SIZE(numVarInCNF: number) { return Math.pow(2, numVarInCNF - this.numVar); }
-
-    public union(indSet: IndependentSet) {
-        const clauseUnion = new Set(this.clauses);
-        indSet.clauses.forEach((clause) => clauseUnion.add(clause));
-        try {
-            const retVal = new IndependentSet(clauseUnion);
-            return retVal;
-        } catch (error) {
-            return undefined;
+        while (indIndex <= cnfNumVar && toContinue) {
+            let INDi: Set<IndSet>;
+            // create IND(2)
+            if (indIndex === 2) {
+                const pairs = Utility.generateAllPairs(Array.from(inds[0].independentSets));
+                INDi = pairs.reduce(IndependentSet.reducePairAsIndSet, new Set<IndSet>());
+            } else {
+                INDi = Array.from(inds[indIndex - 2].independentSets)
+                    .reduce((acc: Set<IndSet>, indSet: IndSet, index: number, array: IndSet[]) => {
+                        const pairs = [indSet].concat(array
+                            .slice(index + 1)
+                            .filter((item: IndSet) => item.clauses.has(indSet.clauses.values().next().value)));
+                        return Utility.generateAllPairs(pairs).reduce(IndependentSet.reducePairAsIndSet, acc);
+                    }, new Set<IndSet>());
+            }
+            toContinue = INDi && INDi.size > 0;
+            if (toContinue) {
+                inds.push(new IND(indIndex, INDi));
+                indIndex++;
+            }
         }
+        return inds;
+    }
+
+    private static reducePairAsIndSet(acc: Set<IndSet>, pair: IndSet[]) {
+        const newSet = pair[0].union(pair[1]);
+        if (newSet)
+            acc.add(newSet);
+        return acc;
     }
 }

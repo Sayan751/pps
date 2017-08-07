@@ -9,7 +9,7 @@ import { Utility } from "../core/Utility";
  * @export
  * @class TwoSATChecker
  */
-export class TwoSATChecker {
+export class TwoSAT {
     /**
      * Returns true if the input cnf is satisfiable, else it returns false.
      *

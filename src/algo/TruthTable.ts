@@ -1,7 +1,7 @@
 import { CNF } from "../core/CNF";
 import { Utility } from "../core/Utility";
 
-export class TruthTableSATChecker {
+export class TruthTable {
     /**
      * Returns true if the input cnf is satisfiable, else it returns false.
      *
@@ -11,11 +11,11 @@ export class TruthTableSATChecker {
      * @memberof TruthTableSATChecker
      */
     public static isSat(cnf: CNF | string): boolean {
-        return TruthTableSATChecker.process(cnf) as boolean;
+        return TruthTable.process(cnf) as boolean;
     }
 
     public static getModel(cnf: CNF | string): Array<Map<string, boolean>> {
-        return TruthTableSATChecker.process(cnf, true) as Array<Map<string, boolean>>;
+        return TruthTable.process(cnf, true) as Array<Map<string, boolean>>;
     }
 
     private static process(cnf: CNF | string, returnModel = false): boolean | Array<Map<string, boolean>> {
@@ -26,7 +26,7 @@ export class TruthTableSATChecker {
         const binaryCombinations = Utility.binaryCombinationGenerator(cnf.numVariables);
         let combination: boolean[] = binaryCombinations.next().value;
         while (combination) {
-            const truthAssignment: Map<string, boolean> = TruthTableSATChecker.generateTruthAssignment(variables, combination);
+            const truthAssignment: Map<string, boolean> = TruthTable.generateTruthAssignment(variables, combination);
             if (cnf.isSatForTruthAssignment(truthAssignment)) {
                 if (!returnModel)
                     return true;

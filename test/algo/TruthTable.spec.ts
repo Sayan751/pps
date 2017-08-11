@@ -257,4 +257,21 @@ describe("TruthTable test suite", () => {
             )).toBe(true);
         });
     });
+    describe("entailment of 2 formulas should be determined correctly", () => {
+        it("x entails x", () => {
+            expect(TruthTable.entails(Literal.parse("x"), Literal.parse("x"))).toBe(true);
+        });
+        it("x does not entail y", () => {
+            expect(TruthTable.entails(Literal.parse("x"), Literal.parse("y"))).toBe(false);
+        });
+        it("x does not entail NOTx", () => {
+            expect(TruthTable.entails(Literal.parse("x"), Literal.parse("NOTx"))).toBe(false);
+        });
+        it("x entails x OR y", () => {
+            expect(TruthTable.entails(Literal.parse("x"), Clause.parse("x OR y"))).toBe(true);
+        });
+        it("x AND (NOTx OR y) entails y", () => {
+            expect(TruthTable.entails(CNF.parse("x AND (NOTx OR y)"), Literal.parse("y"))).toBe(true);
+        });
+    });
 });

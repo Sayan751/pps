@@ -14,17 +14,18 @@ export class TruthTable {
      * @memberof TruthTable
      */
     public static isEquivalent(alpha: Formula, beta: Formula): boolean {
-        const variableSet = new Set<string>([...this.getVariables(alpha), ...this.getVariables(beta)]);
-        const binaryCombinations = Utility.binaryCombinationGenerator(variableSet.size);
-        let combination: boolean[] = binaryCombinations.next().value;
-        while (combination) {
-            const truthAssignment: Map<string, boolean> = TruthTable.generateTruthAssignment(variableSet, combination);
-            const alphaSat = alpha.isSatForTruthAssignment(truthAssignment);
-            const betaSat = beta.isSatForTruthAssignment(truthAssignment);
-            if (alphaSat !== betaSat) { return false; }
-            combination = binaryCombinations.next().value;
-        }
-        return true;
+        return this.processForEquivalenceAndEntailment(alpha, beta, (alphaSat: boolean, betaSat: boolean) => alphaSat !== betaSat);
+    }
+
+    /**
+     * Returns true if alpha entails beta (alpha ⊨ beta).
+     * @param {Formula} alpha
+     * @param {Formula} beta
+     * @returns {boolean} true if alpha entails beta (alpha ⊨ beta), else false.
+     * @memberof TruthTable
+     */
+    public static entails(alpha: Formula, beta: Formula): boolean {
+        return this.processForEquivalenceAndEntailment(alpha, beta, (alphaSat: boolean, betaSat: boolean) => alphaSat && !betaSat);
     }
 
     /**
@@ -60,6 +61,20 @@ export class TruthTable {
             combination = binaryCombinations.next().value;
         }
         return retVal;
+    }
+
+    private static processForEquivalenceAndEntailment(alpha: Formula, beta: Formula, falsifyingCondition: (alphaSat: boolean, betaSat: boolean) => boolean): boolean {
+        const variableSet = new Set<string>([...this.getVariables(alpha), ...this.getVariables(beta)]);
+        const binaryCombinations = Utility.binaryCombinationGenerator(variableSet.size);
+        let combination: boolean[] = binaryCombinations.next().value;
+        while (combination) {
+            const truthAssignment: Map<string, boolean> = TruthTable.generateTruthAssignment(variableSet, combination);
+            const alphaSat = alpha.isSatForTruthAssignment(truthAssignment);
+            const betaSat = beta.isSatForTruthAssignment(truthAssignment);
+            if (falsifyingCondition(alphaSat, betaSat)) { return false; }
+            combination = binaryCombinations.next().value;
+        }
+        return true;
     }
 
     private static generateTruthAssignment(variables: Set<string>, truthValues: boolean[]): Map<string, boolean> {

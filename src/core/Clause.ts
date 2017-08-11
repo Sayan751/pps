@@ -1,3 +1,4 @@
+import { CNF } from "./CNF";
 import { andRegex, ClausalConnectives, Connectives, orRegex, Symbols } from "./Constants";
 import { Implication } from "./Implication";
 import { Literal } from "./Literal";
@@ -113,6 +114,15 @@ export class Clause {
         return new Implication(left.negated(), consequence || left);
     }
 
+    /**
+     * Returns a negated literal. This literal stays unchanged.
+     * @memberof Clause
+     */
+    public negated(): CNF | Clause {
+        return this.isDisjunctive
+            ? new CNF(this.literals.map((lit: Literal) => new Clause([lit.negated()])))
+            : new Clause(this.literals.map((lit: Literal) => lit.negated()));
+    }
     public toString() {
         return this.isEmpty()
             ? Symbols.empty

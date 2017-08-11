@@ -4,6 +4,7 @@ import { Clause } from "../../src/core/Clause";
 import { CNF } from "../../src/core/CNF";
 import { Connectives } from "../../src/core/Constants";
 import { Literal } from "../../src/core/Literal";
+import { NNF } from "../../src/core/NNF";
 import { Utility } from "../../src/core/Utility";
 
 describe("TwoSAT test suite", () => {
@@ -112,6 +113,40 @@ describe("TwoSAT test suite", () => {
             ]);
 
             expect(cnf.isSat(TwoSAT)).toBe(true);
+        });
+    });
+    describe("entailment of 2 formulas should be determined correctly", () => {
+        it("if alpha is not CNF then it should cause error", () => {
+            expect(() => TwoSAT.entails(Literal.parse("x"), CNF.parse("x"))).toThrowError();
+            expect(() => TwoSAT.entails(Clause.parse("x"), CNF.parse("x"))).toThrowError();
+            expect(() => TwoSAT.entails(new NNF([new Literal("x")]), CNF.parse("x"))).toThrowError();
+        });
+        it("if beta is conjunctive clause then it should cause error", () => {
+            expect(() => TwoSAT.entails(CNF.parse("x"), Clause.parse("x AND y"))).toThrowError(/conjunctive/ig);
+        });
+        it("if beta is NNF then it should cause error", () => {
+            expect(() => TwoSAT.entails(CNF.parse("x"), new NNF([new Literal("x")]))).toThrowError(/NNF/ig);
+        });
+        it("if beta is CNF with at least one non-unit clause then it should cause error", () => {
+            expect(() => TwoSAT.entails(CNF.parse("x"), CNF.parse("(x or y) and z"))).toThrowError(/CNF/ig);
+        });
+        it("x entails x", () => {
+            expect(TwoSAT.entails(CNF.parse("x"), CNF.parse("x"))).toBe(true);
+        });
+        it("x does not entail y", () => {
+            expect(TwoSAT.entails(CNF.parse("x"), Literal.parse("y"))).toBe(false);
+        });
+        it("x does not entail NOTx", () => {
+            expect(TwoSAT.entails(CNF.parse("x"), Literal.parse("NOTx"))).toBe(false);
+        });
+        it("x entails x OR y", () => {
+            expect(TwoSAT.entails(CNF.parse("x"), Clause.parse("x OR y"))).toBe(true);
+        });
+        it("x does not entail x AND y", () => {
+            expect(TwoSAT.entails(CNF.parse("x"), CNF.parse("x AND y"))).toBe(false);
+        });
+        it("x AND (NOTx OR y) entails y", () => {
+            expect(TwoSAT.entails(CNF.parse("x AND (NOTx OR y)"), Literal.parse("y"))).toBe(true);
         });
     });
 });

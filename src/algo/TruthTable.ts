@@ -19,6 +19,7 @@ export class TruthTable {
 
     /**
      * Returns true if alpha entails beta (alpha ⊨ beta).
+     * @static
      * @param {Formula} alpha
      * @param {Formula} beta
      * @returns {boolean} true if alpha entails beta (alpha ⊨ beta), else false.

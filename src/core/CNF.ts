@@ -1,5 +1,6 @@
 import { Clause } from "./Clause";
 import { andRegex, Connectives, Symbols } from "./Constants";
+import { isCNF } from "./Formula";
 import { Literal } from "./Literal";
 import { SATChecker } from "./SATChecker";
 
@@ -67,6 +68,12 @@ export class CNF {
     public isSat(satChecker: SATChecker): boolean {
         return satChecker.isSat(this);
     }
+
+    public union(that: CNF | Clause): CNF {
+        const clauses = isCNF(that) ? that.clauses : [that];
+        return new CNF([...this.clauses, ...clauses]);
+    }
+
     public toString() {
         return this.isEmpty()
             ? Symbols.empty

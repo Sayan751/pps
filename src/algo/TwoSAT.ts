@@ -1,6 +1,7 @@
 import { alg, Graph } from "graphlib";
 import { Clause } from "../core/Clause";
 import { CNF } from "../core/CNF";
+import { Formula, isClause, isCNF } from "../core/Formula";
 import { Implication } from "../core/Implication";
 import { Literal } from "../core/Literal";
 import { Utility } from "../core/Utility";
@@ -10,6 +11,18 @@ import { Utility } from "../core/Utility";
  * @class TwoSAT
  */
 export class TwoSAT {
+    /**
+     * Returns true if alpha entails beta (alpha ⊨ beta).
+     * @static
+     * @param {Formula} alpha
+     * @param {Formula} beta
+     * @returns {boolean}  true if alpha entails beta (alpha ⊨ beta), else false.
+     * @memberof TwoSAT
+     */
+    public static entails(alpha: Formula, beta: Formula): boolean {
+        if (!isCNF(alpha)) { throw new Error("alpha needs to be a CNF when TwoSAT is used to determine entailment"); }
+        return !this.isSat(alpha.union(this.convertFormulaToCNFClause(beta)));
+    }
     /**
      * Returns true if the input cnf is satisfiable, else it returns false.
      *
@@ -59,5 +72,25 @@ export class TwoSAT {
             .some((scc: string[]) =>
                 scc.map((lit: string) => Literal.parse(lit))
                     .some((lit: Literal) => scc.includes(lit.negated().toString())));
+    }
+
+    private static convertFormulaToCNFClause(formula: Formula) {
+        let retVal;
+        if (formula instanceof Literal) {
+            retVal = new Clause([formula.negated()]);
+        } else if (isClause(formula)) {
+            retVal = formula.negated();
+            if (isClause(retVal)) { throw new Error("It seems that beta is a conjunctive clause. Try to use CNF directly."); }
+        } else if (isCNF(formula)) {
+            if (formula.clauses.every((clause: Clause) => clause.isUnit())) {
+                retVal = new Clause(formula.clauses.map((clause: Clause) => clause.literals[0].negated()));
+            } else {
+                throw new Error("beta is a CNF such that all clauses are not unit clause; thus, it can't be converted to a disjunctive clause." +
+                    "Consider using a different entailment checker.");
+            }
+        } else {
+            throw new Error("beta is a NNF. Consider using a different entailment checker.");
+        }
+        return retVal;
     }
 }

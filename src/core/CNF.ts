@@ -30,6 +30,9 @@ export class CNF {
             throw new Error("Not all of the clauses are disjunctive. All clauses needs to be disjunctive in a CNF.");
         }
         this.clauses = this.clauses.filter((clause: Clause) => !clause.isEmpty());
+        this.clauses = Array
+            .from(new Set(this.clauses.map((clause: Clause) => clause.toString())))
+            .map((str: string) => Clause.parse(str, true));
         this.variableSet = this.clauses
             .map((clause) => clause.variableSet)
             .reduce((acc: Set<string>, currentSet: Set<string>) => {

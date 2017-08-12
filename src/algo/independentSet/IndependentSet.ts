@@ -1,9 +1,10 @@
 import { Clause } from "../../core/Clause";
 import { CNF } from "../../core/CNF";
 import { Utility } from "../../core/Utility";
+import { AbstractCNFBasedAlgo } from "../AbstractCNFBasedAlgo";
 import { IND } from "./IND";
 import { IndSet } from "./IndSet";
-export class IndependentSet {
+export class IndependentSet  extends AbstractCNFBasedAlgo {
     /**
      * Returns true if the input cnf is satisfiable, else it returns false.
      *

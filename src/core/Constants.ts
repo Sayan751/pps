@@ -14,3 +14,8 @@ export const notRegex = new RegExp(`(not|${Connectives.not}|\!)`, "i");
 export const validLitRegex = new RegExp(`^(not|${Connectives.not}|\!)?\\s*[a-z]+[0-9]*$`, "i");
 
 export type ClausalConnectives = Connectives.or | Connectives.and;
+
+export enum Quantifiers {
+    universal = "\u2200",
+    existential = "\u2203"
+}

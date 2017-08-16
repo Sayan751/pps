@@ -1,5 +1,5 @@
 import { CNF } from "../../src/core/CNF";
-import { Connectives, Quantifiers } from '../../src/core/Constants';
+import { Connectives, Quantifiers } from "../../src/core/Constants";
 import { QCNF } from "../../src/core/QCNF";
 import { QuantifiedVariable } from "../../src/core/QuantifiedVariable";
 

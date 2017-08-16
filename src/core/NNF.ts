@@ -1,5 +1,6 @@
 import { CNF } from "./CNF";
 import { ClausalConnectives, Connectives } from "./Constants";
+import { isLiteral } from "./Formula";
 import { Literal } from "./Literal";
 export class NNF {
     /**
@@ -9,33 +10,27 @@ export class NNF {
      * @memberof Clause
      */
     public readonly variableSet: Set<string>;
-    constructor(readonly group: Literal[] | NNF[], readonly connective?: ClausalConnectives) {
+    constructor(readonly group: Array<Literal | NNF>, readonly connective?: ClausalConnectives) {
         if (group.length > 1 && !connective) { throw new Error("Connective is required for multiple items in the group"); }
-
-        if (this.isLiteralGroup(group)) {
-            this.variableSet = new Set<string>(group.map((lit) => lit.variable));
-        }
-        if (this.isNNFGroup(group)) {
-            this.variableSet = group
-                .reduce((acc: Set<string>, nnf: NNF) => {
-                    Array.from(nnf.variableSet)
+        this.variableSet = group
+            .reduce((acc: Set<string>, item: Literal | NNF) => {
+                if (isLiteral(item)) {
+                    acc.add(item.variable);
+                } else {
+                    Array.from(item.variableSet)
                         .forEach((variable: string) => acc.add(variable));
-                    return acc;
-                }, new Set<string>());
-        }
+                }
+                return acc;
+            }, new Set<string>());
     }
     public isSatForTruthAssignment(truthAssignment: Map<string, boolean>): boolean {
         let retVal = false;
         switch (this.connective) {
             case Connectives.and:
-                retVal = this.isLiteralGroup(this.group)
-                    ? this.group.every((item: Literal) => item.isSatForTruthAssignment(truthAssignment))
-                    : this.group.every((item: NNF) => item.isSatForTruthAssignment(truthAssignment));
+                retVal = this.group.every((item: Literal | NNF) => item.isSatForTruthAssignment(truthAssignment));
                 break;
             case Connectives.or:
-                retVal = this.isLiteralGroup(this.group)
-                    ? this.group.some((item: Literal) => item.isSatForTruthAssignment(truthAssignment))
-                    : this.group.some((item: NNF) => item.isSatForTruthAssignment(truthAssignment));
+                retVal = this.group.some((item: Literal | NNF) => item.isSatForTruthAssignment(truthAssignment));
                 break;
             default:
                 retVal = this.group[0].isSatForTruthAssignment(truthAssignment);
@@ -44,18 +39,7 @@ export class NNF {
     }
 
     public toString(): string {
-        return `(` +
-            (this.isLiteralGroup(this.group)
-                ? this.group.map((item: Literal) => item.toString()).join(` ${this.connective} `)
-                : this.group.map((item: NNF) => item.toString()).join(` ${this.connective} `))
-            + `)`;
-    }
-
-    private isLiteralGroup(group: Literal[] | NNF[]): group is Literal[] {
-        return (group as Literal[])[0].variable !== undefined;
-    }
-    private isNNFGroup(group: Literal[] | NNF[]): group is NNF[] {
-        return (group as NNF[])[0].group !== undefined;
+        return `(${this.group.map((item: Literal | NNF) => item.toString()).join(` ${this.connective} `)})`;
     }
 
     /*

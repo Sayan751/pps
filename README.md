@@ -6,7 +6,7 @@ This repository provides well tested implementations of some satisfiability algo
 [![codecov](https://codecov.io/gh/Sayan751/pps/branch/master/graph/badge.svg)](https://codecov.io/gh/Sayan751/pps)
 
 [![NPM](https://nodei.co/npm/pps2.png)](https://nodei.co/npm/pps2/)
-
+ 
 * [Getting Started](#getting-started)
 * [Propositional Formulas](#propositional-formulas)
 * [Implemented Satisfiability Algorithms](#implemented-satisfiability-algorithms)
@@ -14,6 +14,9 @@ This repository provides well tested implementations of some satisfiability algo
   * [Independent Set](#independent-set)
   * [2-SAT](#2-sat)
 * [Check satisfiability of `CNF` object directly](#check-satisfiability-of-cnf-object-directly)
+* [Check if &#9082; &#8872; &#946;](#check-if-&#9082;-&#8872;-&#946;)
+* [Check if &#9082; &#8776; &#946;](#check-if-&#9082;-&#8776;-&#946;)
+* [Convert a formula in NNF to (Q)CNF](#convert-a-formula-in-nnf-to-qcnf)
 
 ## Getting Started ##
 
@@ -183,6 +186,70 @@ cnf.isSat(IndependentSet);
 ```
 
 Neat!
+
+## Check if &#9082; &#8872; &#946; ##
+
+Check if &#9082; &#8872; &#946; (&#9082; entails &#946;); i.e. whenever &#9082; is `true`, if &#946; is `true` as well for those truth assignments or not.
+
+```javascript
+import { IndependentSet, TruthTable, TwoSAT } from "pps2";
+const alpha = CNF.parse("x");
+const beta = Clause.parse("x OR y");
+
+IndependentSet.entails(alpha, beta); // true
+TruthTable.entails(alpha, beta); // true
+TwoSAT.entails(alpha, beta); // true
+```
+
+> **Note:** &#9082; &#8872; &#946; iff &#9082; &#8743; &#172;&#946; is not satisfiable. The `CNF` based algorithms such as `IndependentSet`, and `TwoSAT` leverage this fact. Therefore for these algorithms &#9082; &#8743; &#172;&#946; has to be a `CNF`. This puts the following restrictions for the said algorithms:
+> * &#9082; has to be a `CNF`, and
+> * &#946; can be one of the following:
+>   * a `Literal`,
+>   * a disjunctive `Clause`, or
+>   * a `CNF` with only unit clauses.
+
+## Check if &#9082; &#8776; &#946; ##
+
+Check if &#9082; &#8776; &#946; (&#9082; is equivalent to &#946;); i.e. for all truth assignments v, whether v(&#9082;) == v(&#946;).
+
+```javascript
+import { TruthTable } from "pps2";
+
+// x, and NOTx should not be equivalent
+const alpha = new CNF([new Clause([new Literal("x")])]);
+const beta  = new CNF([new Clause([new Literal("x", true)])]);
+
+TruthTable.isEquivalent(alpha, beta); // false
+```
+
+## Convert a formula in NNF to (Q)CNF ##
+
+Use `PSGraph` to convert a formula in `NNF` to `CNF`, or more specifically `QCNF` (Quantified CNF; `read about` [quantified boolean formula](https://www-old.cs.uni-paderborn.de/fileadmin/Informatik/AG-Kleine-Buening/files/ss16/pps/qbf-slides1.pdf)).
+This uses the Parallel-Serial graph algorithm.
+References:
+ * [CNF Transformation
+by Parallel-Serial Graphs](https://www-old.cs.uni-paderborn.de/fileadmin/Informatik/AG-Kleine-Buening/files/ss11/pps/ps-transform-slides.pdf)
+ * [Paper](http://www.ub-net.de/cms/fileadmin/upb/doc/bubeck-3cnf-transform-ipl-2009.pdf)
+
+Example: Converting &#172;a &#8743; ((b &#8743; &#172;c) &#8744; (d &#8743; e))
+
+```javascript
+import { Connectives, Literal, NNF, PSGraph } from "pps2";
+
+// Construct the NNF
+const NOTa = new Literal("a", true);
+const b_AND_NOTc = new NNF([new Literal("b"), new Literal("c", true)], Connectives.and);
+const d_AND_e = new NNF([new Literal("d"), new Literal("e")], Connectives.and);
+const nnf = new NNF([NOTa, new NNF([b_AND_NOTc, d_AND_e], Connectives.or)], Connectives.and);
+
+// Convert to QCNF.
+const qcnf = PSGraph.convertNNFToCNF(nnf, "z");
+qcnf.toString(); // ∃z1: (¬a) ∧ (b ∨ z1) ∧ (¬c ∨ z1) ∧ (¬z1 ∨ d) ∧ (¬z1 ∨ e)
+```
+
+Note that `convertNNFToCNF` method optionally needs a second parameter, which is the prefix for the internal quantified variables created by the algorithm (refer the `toString` representation).
+If no prefix is passed then the string `"internal"` is used for this purpose, which might not be that nice.
+However, if a prefix is used explicitly, then it can't be a variable or prefix of a variable in the input `nnf`.
 
 More features will be added soon (hopefully :stuck_out_tongue:).
 

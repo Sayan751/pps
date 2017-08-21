@@ -6,17 +6,19 @@ This repository provides well tested implementations of some satisfiability algo
 [![codecov](https://codecov.io/gh/Sayan751/pps/branch/master/graph/badge.svg)](https://codecov.io/gh/Sayan751/pps)
 
 [![NPM](https://nodei.co/npm/pps2.png)](https://nodei.co/npm/pps2/)
- 
-* [Getting Started](#getting-started)
-* [Propositional Formulas](#propositional-formulas)
-* [Implemented Satisfiability Algorithms](#implemented-satisfiability-algorithms)
-  * [Truth Table](#truth-table)
-  * [Independent Set](#independent-set)
-  * [2-SAT](#2-sat)
-* [Check satisfiability of `CNF` object directly](#check-satisfiability-of-cnf-object-directly)
-* [Check if &#9082; &#8872; &#946;](#check-if-&#9082;-&#8872;-&#946;)
-* [Check if &#9082; &#8776; &#946;](#check-if-&#9082;-&#8776;-&#946;)
-* [Convert a formula in NNF to (Q)CNF](#convert-a-formula-in-nnf-to-qcnf)
+
+- [Getting Started](#getting-started)
+- [Propositional Formulas](#propositional-formulas)
+    - [Formulas in textual forms](#formulas-in-textual-forms)
+    - [Formulas as `CNF` object](#formulas-as-`cnf`-object)
+- [Implemented Satisfiability Algorithms](#implemented-satisfiability-algorithms)
+    - [Truth Table Algorithm](#truth-table-algorithm)
+    - [Independent Set Algorithm](#independent-set-algorithm)
+    - [2-SAT](#2-sat)
+- [Check satisfiability of `CNF` object directly](#check-satisfiability-of-`cnf`-object-directly)
+- [Check if &#9082; &#8872; &#946;](#check-if---β)
+- [Check if &#9082; &#8776; &#946;](#check-if---β-1)
+- [Convert a formula in NNF to (Q)CNF](#convert-a-formula-in-nnf-to-qcnf)
 
 ## Getting Started ##
 

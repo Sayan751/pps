@@ -15,7 +15,7 @@ This repository provides well tested implementations of some satisfiability algo
     - [Truth Table Algorithm](#truth-table-algorithm)
     - [Independent Set Algorithm](#independent-set-algorithm)
     - [2-SAT](#2-sat)
-- [Check satisfiability of `CNF` object directly](#check-satisfiability-of-`cnf`-object-directly)
+- [Check satisfiability of `CNF` object directly](#check-satisfiability-of-cnf-object-directly)
 - [Check if &#9082; &#8872; &#946;](#check-if---β)
 - [Check if &#9082; &#8776; &#946;](#check-if---β-1)
 - [Convert a formula in NNF to (Q)CNF](#convert-a-formula-in-nnf-to-qcnf)

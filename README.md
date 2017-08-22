@@ -7,18 +7,18 @@ This repository provides well tested implementations of some satisfiability algo
 
 [![NPM](https://nodei.co/npm/pps2.png)](https://nodei.co/npm/pps2/)
 
-- [Getting Started](#getting-started)
-- [Propositional Formulas](#propositional-formulas)
-    - [Formulas in textual forms](#formulas-in-textual-forms)
-    - [Formulas as `CNF` object](#formulas-as-`cnf`-object)
-- [Implemented Satisfiability Algorithms](#implemented-satisfiability-algorithms)
-    - [Truth Table Algorithm](#truth-table-algorithm)
-    - [Independent Set Algorithm](#independent-set-algorithm)
-    - [2-SAT](#2-sat)
-- [Check satisfiability of `CNF` object directly](#check-satisfiability-of-cnf-object-directly)
-- [Check if &#9082; &#8872; &#946;](#check-if---β)
-- [Check if &#9082; &#8776; &#946;](#check-if---β-1)
-- [Convert a formula in NNF to (Q)CNF](#convert-a-formula-in-nnf-to-qcnf)
+* [Getting Started](#getting-started)
+* [Propositional Formulas](#propositional-formulas)
+  * [Formulas in textual forms](#formulas-in-textual-forms)
+  * [Formulas as `CNF` object](#formulas-as-`cnf`-object)
+* [Implemented Satisfiability Algorithms](#implemented-satisfiability-algorithms)
+  * [Truth Table Algorithm](#truth-table-algorithm)
+  * [Independent Set Algorithm](#independent-set-algorithm)
+  * [2-SAT](#2-sat)
+* [Check satisfiability of `CNF` object directly](#check-satisfiability-of-cnf-object-directly)
+* [Check if &#9082; &#8872; &#946;](#check-if---β)
+* [Check if &#9082; &#8776; &#946;](#check-if---β-1)
+* [Convert a formula in NNF to (Q)CNF](#convert-a-formula-in-nnf-to-qcnf)
 
 ## Getting Started ##
 
@@ -229,9 +229,9 @@ TruthTable.isEquivalent(alpha, beta); // false
 Use `PSGraph` to convert a formula in `NNF` to `CNF`, or more specifically `QCNF` (Quantified CNF; `read about` [quantified boolean formula](https://www-old.cs.uni-paderborn.de/fileadmin/Informatik/AG-Kleine-Buening/files/ss16/pps/qbf-slides1.pdf)).
 This uses the Parallel-Serial graph algorithm.
 References:
- * [CNF Transformation
-by Parallel-Serial Graphs](https://www-old.cs.uni-paderborn.de/fileadmin/Informatik/AG-Kleine-Buening/files/ss11/pps/ps-transform-slides.pdf)
- * [Paper](http://www.ub-net.de/cms/fileadmin/upb/doc/bubeck-3cnf-transform-ipl-2009.pdf)
+
+* [CNF Transformation by Parallel-Serial Graphs](https://www-old.cs.uni-paderborn.de/fileadmin/Informatik/AG-Kleine-Buening/files/ss11/pps/ps-transform-slides.pdf)
+* [Paper](http://www.ub-net.de/cms/fileadmin/upb/doc/bubeck-3cnf-transform-ipl-2009.pdf)
 
 Example: Converting &#172;a &#8743; ((b &#8743; &#172;c) &#8744; (d &#8743; e))
 

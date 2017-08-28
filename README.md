@@ -18,8 +18,8 @@ This repository provides well tested implementations of some satisfiability algo
 * [Check satisfiability of `CNF` object directly](#check-satisfiability-of-cnf-object-directly)
 * [Check if &#9082; &#8872; &#946;](#check-if---β)
 * [Check if &#9082; &#8776; &#946;](#check-if---β-1)
-* [Convert a formula in NNF to (Q)CNF](#convert-a-formula-in-nnf-to-qcnf)
 * [Check for minimal unsatisfiability (MU)](#check-for-minimal-unsatisfiability-mu)
+* [Convert a formula in NNF to (Q)CNF](#convert-a-formula-in-nnf-to-qcnf)
 
 ## Getting Started ##
 

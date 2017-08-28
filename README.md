@@ -19,6 +19,7 @@ This repository provides well tested implementations of some satisfiability algo
 * [Check if &#9082; &#8872; &#946;](#check-if---β)
 * [Check if &#9082; &#8776; &#946;](#check-if---β-1)
 * [Convert a formula in NNF to (Q)CNF](#convert-a-formula-in-nnf-to-qcnf)
+* [Check for minimal unsatisfiability (MU)](#check-for-minimal-unsatisfiability-mu)
 
 ## Getting Started ##
 
@@ -225,6 +226,7 @@ TruthTable.isEquivalent(alpha, beta); // false
 ```
 
 ## Check for minimal unsatisfiability (MU) ##
+
 A CNF formula is minimally unsatisfiable if and only if the following conditions hold.
 
 1. The CNF is unsatisfiable, and

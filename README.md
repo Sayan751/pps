@@ -224,6 +224,23 @@ const beta  = new CNF([new Clause([new Literal("x", true)])]);
 TruthTable.isEquivalent(alpha, beta); // false
 ```
 
+## Check for minimal unsatisfiability (MU) ##
+A CNF formula is minimally unsatisfiable if and only if the following conditions hold.
+
+1. The CNF is unsatisfiable, and
+1. Every subsets of clauses that can be formed by excluding a clause every time, are satisfiable.
+
+To check if a CNF is in MU or not you can use `MinimalUnsatisfiabilityChecker`.
+
+Example:
+
+```javascript
+import { CNF, MinimalUnsatisfiabilityChecker } from "pps2";
+
+const cnf = CNF.parse("(x) AND (NOTx) AND (y)");
+MinimalUnsatisfiabilityChecker.isMinimallyUnsatisfiable(cnf); // false
+```
+
 ## Convert a formula in NNF to (Q)CNF ##
 
 Use `PSGraph` to convert a formula in `NNF` to `CNF`, or more specifically `QCNF` (Quantified CNF; `read about` [quantified boolean formula](https://www-old.cs.uni-paderborn.de/fileadmin/Informatik/AG-Kleine-Buening/files/ss16/pps/qbf-slides1.pdf)).

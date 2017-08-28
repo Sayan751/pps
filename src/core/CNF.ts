@@ -2,6 +2,7 @@ import { Clause } from "./Clause";
 import { andRegex, Connectives, Symbols } from "./Constants";
 import { isCNF } from "./Formula";
 import { Literal } from "./Literal";
+import { NNF } from "./NNF";
 import { SATChecker } from "./SATChecker";
 
 export class CNF {
@@ -83,5 +84,8 @@ export class CNF {
             : this.clauses
                 .map((clause: Clause) => clause.toString())
                 .join(` ${Connectives.and} `);
+    }
+    public toNNF(): NNF {
+        return new NNF(this.clauses.map((clause: Clause) => clause.toNNF()), Connectives.and);
     }
 }

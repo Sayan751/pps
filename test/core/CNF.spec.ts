@@ -104,4 +104,15 @@ describe("CNF test suite", () => {
             expect(cnf.toString()).toBe(expected);
         });
     });
+
+    describe("CNF can be converted to NNF", () => {
+        it("(x) AND (x OR y) can be converted to NNF", () => {
+            const cnf = CNF.parse("(x) AND (x OR y)");
+            const nnf = cnf.toNNF();
+            expect(nnf).toBeDefined();
+            expect(nnf.connective).toBe(Connectives.and);
+            expect(nnf.group.length).toBe(cnf.clauses.length);
+            expect(nnf.variableSet.size).toBe(cnf.variableSet.size);
+        });
+    });
 });

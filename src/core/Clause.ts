@@ -2,6 +2,7 @@ import { CNF } from "./CNF";
 import { andRegex, ClausalConnectives, Connectives, orRegex, Symbols } from "./Constants";
 import { Implication } from "./Implication";
 import { Literal } from "./Literal";
+import { NNF } from "./NNF";
 
 export class Clause {
     /**
@@ -131,5 +132,8 @@ export class Clause {
                 .map((lit: Literal) => lit.toString())
                 .join(` ${this.connective} `)
             })`;
+    }
+    public toNNF(): NNF {
+        return new NNF(this.literals, this.connective);
     }
 }

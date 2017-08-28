@@ -241,4 +241,30 @@ describe("Clause test suite", () => {
         });
     });
 
+    describe("Clause can be converted to NNF", () => {
+        it("(x) can be converted to NNF", () => {
+            const clause = Clause.parse("x");
+            const nnf = clause.toNNF();
+            expect(nnf).toBeDefined();
+            expect(nnf.connective).toBe(clause.connective);
+            expect(nnf.group.length).toBe(clause.literals.length);
+            expect(nnf.variableSet.size).toBe(clause.variableSet.size);
+        });
+        it("(x OR y) can be converted to NNF", () => {
+            const clause = Clause.parse("x OR y");
+            const nnf = clause.toNNF();
+            expect(nnf).toBeDefined();
+            expect(nnf.connective).toBe(clause.connective);
+            expect(nnf.group.length).toBe(clause.literals.length);
+            expect(nnf.variableSet.size).toBe(clause.variableSet.size);
+        });
+        it("(x AND y) can be converted to NNF", () => {
+            const clause = Clause.parse("x AND y");
+            const nnf = clause.toNNF();
+            expect(nnf).toBeDefined();
+            expect(nnf.connective).toBe(clause.connective);
+            expect(nnf.group.length).toBe(clause.literals.length);
+            expect(nnf.variableSet.size).toBe(clause.variableSet.size);
+        });
+    });
 });

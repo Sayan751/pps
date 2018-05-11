@@ -42,4 +42,8 @@ export class Literal {
     public toString() {
         return `${this.isNegative ? Connectives.not : ""}${this.variable}`;
     }
+
+    public equal(that: Literal): boolean {
+        return this.variable === that.variable && this.isNegative === that.isNegative;
+    }
 }
